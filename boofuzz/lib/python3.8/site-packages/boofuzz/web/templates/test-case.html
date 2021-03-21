@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="main-wrapper">
+    {% if crashinfo is not none %}
+        <table border=0 cellpadding=5 cellspacing=0 width="100%">
+          <tr bgcolor="#333333">
+            <td> <div style="font-size: 20px;">Crash Viewer</div> </td>
+          </tr>
+          <tr bgcolor="#111111">
+            <td colspan=2 align="center">
+              <h2>Crash Info</h2>
+              {% if crashinfo is none %}
+              <em>None</em>
+              {% else %}
+                {% for reason in crashinfo %}
+                  <pre>{{ reason.decode('utf-8', errors='replace') }}</pre>
+                {% endfor %}
+              {% endif %}
+            </td>
+          </tr>
+        </table>
+    {% endif %}
+    {% include 'test-case-log-widget.html' %}
+</div>
+{% endblock %}

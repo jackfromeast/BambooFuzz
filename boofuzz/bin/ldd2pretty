@@ -1,0 +1,3 @@
+#!/Users/jackfromeast/Desktop/信安国赛2021/boofuzz/boofuzz/bin/python3
+from ldapdomaindump import pretty
+pretty.main()

@@ -1,0 +1,3 @@
+[console_scripts]
+boo = boofuzz.cli:main
+
