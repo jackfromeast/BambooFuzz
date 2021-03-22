@@ -17,6 +17,7 @@ import threading
 import time
 
 import psutil
+from psutil import NoSuchProcess
 from io import open
 
 if not getattr(__builtins__, "WindowsError", None):
@@ -36,7 +37,15 @@ POPEN_COMMUNICATE_TIMEOUT_FOR_ALREADY_DEAD_TASK = 30
 
 def _enumerate_processes():
     for pid in psutil.pids():
+        ### lzy 3.22
+        try:
+            proc_name = psutil.Process(pid).name()
+        # 如果pid找不到的话
+        except(NoSuchProcess):
+            continue
+        
         yield (pid, psutil.Process(pid).name())
+
 
 
 def _get_coredump_path():
@@ -115,12 +124,12 @@ class DebuggerThreadSimple(threading.Thread):
             try:
                 if self.capture_output:
                     # self._process = subprocess.Popen(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-                    # lzy 3.20
-                    self._process = subprocess.Popen(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True, cwd=self.cwd_path)
+                    # lzy 3.22
+                    self._process = subprocess.Popen(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True, cwd=self.cwd_path, preexec_fn=os.setsid)
                 else:
                     # self._process = subprocess.Popen(command)
                     # lzy 3.20
-                    self._process = subprocess.Popen(command, shell=True, cwd=self.cwd_path)
+                    self._process = subprocess.Popen(command, shell=True, cwd=self.cwd_path, preexec_fn=os.setsid)
                     
             except WindowsError as e:
                 print(
@@ -145,6 +154,7 @@ class DebuggerThreadSimple(threading.Thread):
             self.log('searching for process by name "{0}"'.format(self.proc_name))
             self.watch()
             self._psutil_proc = psutil.Process(pid=self.pid)
+                
             self.process_monitor.log("found match on pid {}".format(self.pid))
         else:
             self.log("done. target up and running, giving it 5 seconds to settle in.")
@@ -162,7 +172,7 @@ class DebuggerThreadSimple(threading.Thread):
 
         self.finished_starting.set()
         if self.proc_name:
-            gone, _ = psutil.wait_procs([self._psutil_proc])
+            gone, _ = psutil.wait_procs([self._psutil_proc]) # 阻塞等待新开启的服务器进程Terminated
             self.exit_status = gone[0].returncode
         else:
             exit_info = os.waitpid(self.pid, 0)
@@ -223,7 +233,9 @@ class DebuggerThreadSimple(threading.Thread):
 
     def stop_target(self):
         try:
-            os.kill(self.pid, signal.SIGKILL)
+            # os.kill(self.pid, signal.SIGKILL)
+            ### lzy 3.22
+            os.killpg(os.getpgid(self.pid), signal.SIGTERM)
         except OSError as e:
             print(
                 'Error while killing process. PID: {0} errno: {1} "{2}"'.format(self.pid, e.errno, os.strerror(e.errno))
