@@ -92,15 +92,14 @@ class DebuggerThreadSimple(threading.Thread):
         self.coredump_dir = coredump_dir
         self.capture_output = capture_output
         self.finished_starting = threading.Event()
-        # if isinstance(start_commands, basestring):
-        #     self.tokens = start_commands.split(' ')
-        # else:
-        #     self.tokens = start_commands
+
         self.cmd_args = []
         self.pid = None
         self.exit_status = None
         self.log_level = log_level
         self._process = None
+        ### lzy 3.22
+        self._process_alive = False
 
     def log(self, msg="", level=1):
         """
@@ -125,6 +124,7 @@ class DebuggerThreadSimple(threading.Thread):
                 if self.capture_output:
                     # self._process = subprocess.Popen(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
                     # lzy 3.22
+                    # 使用shell=True是极其危险的，但是简化执行的start_commands
                     self._process = subprocess.Popen(command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True, cwd=self.cwd_path, preexec_fn=os.setsid)
                 else:
                     # self._process = subprocess.Popen(command)
@@ -161,8 +161,10 @@ class DebuggerThreadSimple(threading.Thread):
             time.sleep(5)
             self.pid = self._process.pid
         self.process_monitor.log("attached to pid: {0}".format(self.pid))
+        self._process_alive = True
 
     def run(self):
+        # 线程体，包含了要执行的这个线程的内容。
         """
         self.exit_status = os.waitpid(self.pid, os.WNOHANG | os.WUNTRACED)
         while self.exit_status == (0, 0):
@@ -173,7 +175,9 @@ class DebuggerThreadSimple(threading.Thread):
         self.finished_starting.set()
         if self.proc_name:
             gone, _ = psutil.wait_procs([self._psutil_proc]) # 阻塞等待新开启的服务器进程Terminated
-            self.exit_status = gone[0].returncode
+            self.exit_status = gone[0].returncode # exit_status可能为None
+            self._process_alive = False
+            
         else:
             exit_info = os.waitpid(self.pid, 0)
             self.exit_status = exit_info[1]  # [0] is the pid
@@ -202,7 +206,7 @@ class DebuggerThreadSimple(threading.Thread):
             self.process_monitor.log(
                 msg="Expired waiting for process {0} to terminate".format(self._process.pid), level=1
             )
-
+       
         msg = "[{0}] Crash. Exit code: {1}. Reason - {2}\n".format(
             time.strftime("%I:%M.%S"), self.exit_status if self.exit_status is not None else "<unknown>", reason
         )
@@ -252,8 +256,11 @@ class DebuggerThreadSimple(threading.Thread):
         Returns:
             bool: True if the target is still active, False otherwise.
         """
-        if self.is_alive():
+        ### lzy 3.22 检查目标服务器进程是否gg，而不是debugger线程
+        # if self.is_alive():
+        if self._process_alive:
             return True
+        
         else:
             with open(self.process_monitor.crash_filename, "a") as rec_file:
                 rec_file.write(self.process_monitor.last_synopsis)
