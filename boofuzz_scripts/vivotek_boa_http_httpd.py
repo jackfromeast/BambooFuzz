@@ -29,7 +29,8 @@ def main():
         fuzz_loggers=[FuzzLoggerText(), FuzzLoggerCsv(file_handle=fuzz_log_file)]
     )
 
-    s_initialize(name="Request") # s_initialize函数初始化一个命名为Request的块请求，并将之后所有定义的blocks和primitives添加到此块请求上
+    # s_initialize函数初始化一个命名为Request的块请求，并将之后所有定义的blocks和primitives添加到此块请求上
+    s_initialize(name="Request")
 
     with s_block("Request-Line"):
         s_group("Method", ["POST"])
