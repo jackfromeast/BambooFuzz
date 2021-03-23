@@ -258,7 +258,9 @@ class DebuggerThreadSimple(threading.Thread):
         """
         ### lzy 3.22 检查目标服务器进程是否gg，而不是debugger线程
         # if self.is_alive():
+        time.sleep(0.5) #post-check 之前先睡0.5s
         if self._process_alive:
+            self.log('post-send check: process is alive!')
             return True
         
         else:
