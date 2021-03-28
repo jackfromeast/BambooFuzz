@@ -35,7 +35,7 @@ def main():
         s_group("Method", ["POST"])
         s_delim(" ", name="space-1")
         s_string("/cgi-bin/admin/upgrade.cgi", name="Request-URI", fuzzable=False)
-        s_delim(" ", name="space-2")
+        s_delim("", name="space-2")
         s_string("HTTP/1.0", name="HTTP-Version", fuzzable=False)
         s_static("\n", name="Request-Line-CRLF")
         s_static("Content-Length:", name="Content-Length-Header")
