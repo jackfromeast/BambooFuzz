@@ -95,8 +95,9 @@ function run_emulation()
     # extract filesystem from firmware
     # ================================
     t_start="$(date -u +%s.%N)"
-    timeout --preserve-status --signal SIGINT 300 \
-        ./sources/extractor/extractor.py -b $BRAND -sql $PSQL_IP -np -nk $INFILE images \
+    # timeout --preserve-status --signal SIGINT 300 \
+    
+    python3 ./sources/extractor/extractor.py -b $BRAND -sql $PSQL_IP -np -d  $INFILE images \
         2>&1 >/dev/null
 
     IID=`./scripts/util.py get_iid $INFILE $PSQL_IP`
@@ -108,9 +109,9 @@ function run_emulation()
     # ================================
     # extract kernel from firmware
     # ================================
-    timeout --preserve-status --signal SIGINT 300 \
-        ./sources/extractor/extractor.py -b $BRAND -sql $PSQL_IP -np -nf $INFILE images \
-        2>&1 >/dev/null
+    # timeout --preserve-status --signal SIGINT 300 \
+    #     ./sources/extractor/extractor.py -b $BRAND -sql $PSQL_IP -np -nf $INFILE images \
+    #     2>&1 >/dev/null
 
     WORK_DIR=`get_scratch ${IID}`
     mkdir -p ${WORK_DIR}
@@ -170,7 +171,8 @@ function run_emulation()
     t_end="$(date -u +%s.%N)"
     time_arch="$(bc <<<"$t_end-$t_start")"
     echo $time_arch > ${WORK_DIR}/time_arch
-
+    echo "[*] starting make qemu image!!!"
+    
     if (! egrep -sqi "true" ${WORK_DIR}/web); then
         # ================================
         # make qemu image
@@ -197,8 +199,8 @@ function run_emulation()
         # TIMEOUT is set in "firmae.config". This TIMEOUT is used for initial
         # log collection.
         TIMEOUT=$TIMEOUT FIRMAE_NETWORK=${FIRMAE_NETWORK} \
-          ./scripts/makeNetwork.py -i $IID -q -o -a ${ARCH} \
-          &> ${WORK_DIR}/makeNetwork.log
+          ./scripts/makeNetwork.py -i $IID -q -o -a ${ARCH} 
+        #   \&> ${WORK_DIR}/makeNetwork.log
         if [ ! -e ${WORK_DIR}/run_debug.sh ]; then
           ln -s ./run.sh ${WORK_DIR}/run_debug.sh
           ln -s ./run.sh ${WORK_DIR}/run_analyze.sh
