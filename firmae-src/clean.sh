@@ -9,4 +9,6 @@ sudo ip link set tap${1}_0 down
 sudo ip link delete tap${1}_0
 sudo ip link delete tap${1}_0.1
 sudo tunctl -d tap${1}_0
+pid= ps -a | grep qemu | awk {'print $2'}
+kill ${pid}
 fi
