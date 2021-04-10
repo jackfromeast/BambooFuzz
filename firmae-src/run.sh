@@ -96,9 +96,9 @@ function run_emulation()
     # ================================
     t_start="$(date -u +%s.%N)"
     # timeout --preserve-status --signal SIGINT 300 \
-    
-    python3 ./sources/extractor/extractor.py -b $BRAND -sql $PSQL_IP -np -d  $INFILE images \
-        2>&1 >/dev/null
+    echo "./sources/extractor/extractor.py -b $BRAND -sql $PSQL_IP -np -d  $INFILE images \
+        2>&1 >/dev/null"
+    python3 ./sources/extractor/extractor.py -b $BRAND -sql $PSQL_IP -np -d  $INFILE images
 
     IID=`./scripts/util.py get_iid $INFILE $PSQL_IP`
     if [ ! "${IID}" ]; then
@@ -267,13 +267,11 @@ function run_emulation()
             IP=`cat ${WORK_DIR}/ip`
             ./scratch/$IID/run_debug.sh &
             check_network ${IP} true
-
-            sleep 10
-            ./debug.py ${IID}
-
-            sync
-            kill $(ps aux | grep `get_qemu ${ARCH}` | awk '{print $2}') 2> /dev/null | true
-            sleep 2
+            echo "get shell"
+            sleep 1
+            telnet ${IP} 31338
+            # ./debug.py ${IID}
+            ./clean.sh ${IID}
         else
             echo -e "[\033[31m-\033[0m] Network unreachable"
         fi
