@@ -101,6 +101,9 @@ function run_emulation()
     python3 ./sources/extractor/extractor.py -b $BRAND -sql $PSQL_IP -np -d  $INFILE images
 
     IID=`./scripts/util.py get_iid $INFILE $PSQL_IP`
+    
+    ./clean.sh ${IID} || true
+
     if [ ! "${IID}" ]; then
         echo -e "[\033[31m-\033[0m] extractor.py failed!"
         return
