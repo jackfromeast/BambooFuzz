@@ -186,7 +186,7 @@ class String(Fuzzable):
     _long_string_lengths = [8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 32768, 0xFFFF]
     _long_string_deltas = [-2, -1, 0, 1, 2]
     _extra_long_string_lengths = [99999, 100000, 500000, 1000000]
-
+    _void_string_num = 10 # num of void string
     _variable_mutation_multipliers = [2, 10, 100]
 
     def __init__(
@@ -209,12 +209,13 @@ class String(Fuzzable):
         previous_length = 0
         # For every length add a random number of random indices to the random_indices dict. Prevent duplicates by
         # adding only indices in between previous_length and current length.
+        # 在随机字符中间添加随机数量的随机索引
         for length in self._long_string_lengths:
             self.random_indices[length] = random.sample(
                 range(previous_length, length), random.randint(1, self._long_string_lengths[0])
             )
             previous_length = length
-
+    # 给定一个序列，生成若干给定序列的可选字符串长度
     def _yield_long_strings(self, sequences):
         """
         Given a sequence, yield a number of selectively chosen strings lengths of the given sequence.
@@ -223,27 +224,28 @@ class String(Fuzzable):
         @param sequences: Sequence to repeat for creation of fuzz strings.
         """
         for sequence in sequences:
+            # 这个for循环是将种子长度通过乘法扩大为给定size(其实算随机长度)
             for size in [
                 length + delta
                 for length, delta in itertools.product(self._long_string_lengths, self._long_string_deltas)
             ]:
                 if self.max_len is None or size <= self.max_len:
-                    data = sequence * math.ceil(size / len(sequence))
+                    data = sequence * math.ceil(size / len(sequence))#math.ceil(a)大于a的最小整数
                     yield data[:size]
                 else:
                     break
-
+            # 长度非常长的string
             for size in self._extra_long_string_lengths:
                 if self.max_len is None or size <= self.max_len:
                     data = sequence * math.ceil(size / len(sequence))
                     yield data[:size]
                 else:
                     break
-
+            # 产生给定最大长度的string
             if self.max_len is not None:
                 data = sequence * math.ceil(self.max_len / len(sequence))
                 yield data
-
+        # 用终止符取代loc中的字符
         for size in self._long_string_lengths:
             if self.max_len is None or size <= self.max_len:
                 s = "D" * size
@@ -251,7 +253,7 @@ class String(Fuzzable):
                     yield s[:loc] + "\x00" + s[loc + 1 :]  # Replace character at loc with terminator
             else:
                 break
-
+    # 把默认值乘以规定的倍数且不在fuzz的库里
     def _yield_variable_mutations(self, default_value):
         for length in self._variable_mutation_multipliers:
             value = default_value * length
@@ -259,12 +261,28 @@ class String(Fuzzable):
                 yield value
                 if self.max_len is not None and len(value) >= self.max_len:
                     break
-
+    # 就是把长度太大的数据切了呗
     def _adjust_mutation_for_size(self, fuzz_value):
         if self.max_len is not None and self.max_len < len(fuzz_value):
             return fuzz_value[: self.max_len]
         else:
             return fuzz_value
+    # 生成空字符串
+    def _yield_void_mutations(self, default_value):
+        for i in range(0,self._void_string_num):
+            value = ""
+            yield value
+    # 生成不同类型的数据
+    def _yield_diff_type_mutations(self, default_value):
+        for length in self._variable_mutation_multipliers:
+            v_len = len(default_value) * length
+            value = b""
+            for _ in xrange(v_len):
+                value += struct.pack("B", random.randint(0, 255)) #转换成C语言的无符号字符，16进制
+                yield value
+                if self.max_len is not None and len(value) >= self.max_len:
+                    break
+        
 
     def mutations(self, default_value):
         """
@@ -278,20 +296,23 @@ class String(Fuzzable):
             str: Mutations
         """
         last_val = None
-
+        # 产生fuzz_library里的string、string乘以某些倍数之后、长字符
         for val in itertools.chain(
             self._fuzz_library,
             self._yield_variable_mutations(default_value),
             self._yield_long_strings(self.long_string_seeds),
+            self._yield_void_mutations(default_value),
+            self._yield_diff_type_mutations(default_value),
         ):
             current_val = self._adjust_mutation_for_size(val)
-            if last_val == current_val:
+            if last_val == current_val and current_val!="" :#不能产生和前一个string重复的数据
                 continue
             last_val = current_val
             yield current_val
 
         # TODO: Add easy and sane string injection from external file/s
-
+        
+    # six是专门用来兼容Python 2 和 Python 3 的库
     def encode(self, value, mutation_context=None):
         value = six.ensure_binary(value, self.encoding, "replace")
         # pad undersized library items.
