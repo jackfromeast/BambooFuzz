@@ -1,9 +1,20 @@
+"""
+
+    解析树对象: MsgTree
+    用途: 将 pcap 文件数据包存入树形结构
+    主要方法: build_tree_list, build_login_tree
+
+"""
 # -*- coding: utf-8 -*-
+import re
+import xml.etree.ElementTree as ET
+
+# 应修改为上级目录下boofuzz！！！！
+from boofuzz import *
+
 from .treelib import Tree
 from .utils import *
-from boofuzz import *
-import xml.etree.ElementTree as ET
-import re
+
 
 # 类定义
 class MsgTree(Tree):
@@ -81,7 +92,7 @@ class MsgTree(Tree):
         return new_tree
 
 
-    # 装饰器静态方法
+
     @staticmethod
     # 生成Headers树
     def get_headers(header_dic={}):
@@ -110,8 +121,6 @@ class MsgTree(Tree):
         return new_tree
 
 
-
-    # 装饰器静态方法
     @staticmethod
     # 生成optContent树
     def get_optContent(payload):
@@ -155,7 +164,7 @@ class MsgTree(Tree):
         返回 list. 
         """
         parent = self.parent(Node)
-        cousins = parent.children()
+        cousins = self.children(parent.tag)
         return cousins
         
 
@@ -223,11 +232,12 @@ class MsgTree(Tree):
                 tree_list.append(couple)
                 # msgtree.show()
         return(tree_list)
-        
+    
+
     def build_login_tree(file_path):
         """
         用于获取流程中第一个 pcap 文件的 Login 请求数据包
-        返回 list 
+        返回 list
         """
         trees_list = MsgTree.build_tree_list(file_path)
         login = []

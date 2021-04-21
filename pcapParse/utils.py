@@ -166,7 +166,7 @@ def str_to_dic(string):
     转换payload中data为字典存储. 
     返回 dic
     """
-    pairs = string.split(",")
+    pairs = string.split("&")
     dic = {}
     for pair in pairs:
         pair = pair.split("=")
@@ -183,9 +183,6 @@ def rm_bracket(string):
     """
     group = re.search('({[\s\S]*})([\s\S]*)', string)
     return group.group(2)
-
-
-
 
 
 # def preorder_traverse(etree):
