@@ -1,4 +1,4 @@
 .DS_Store
 .vscode
 /firmae-src/*
-__pycache__
+*/__pycache__
