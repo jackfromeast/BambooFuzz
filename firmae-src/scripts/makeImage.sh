@@ -136,7 +136,7 @@ sync
 umount "${IMAGE_DIR}"
 del_partition ${DEVICE:0:$((${#DEVICE}-2))}
 
-DEVICE=`add_partition ${IMAGE}`
+DEVICE=`add_partition ${IMAGE} ${IID}`
 e2fsck -y ${DEVICE}
 sync
 sleep 1
