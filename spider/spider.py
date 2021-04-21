@@ -52,7 +52,7 @@ def request(driver, url):
 def initialize_driver():
     #Create a chrome session
     chrome_options = Options()
-    chrome_options.add_argument('--headless')
+    #chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--disable-gpu')
@@ -89,7 +89,7 @@ def login(driver, xpaths, parameter):
                 else:
                     print("[Debug] The login page didn't update after click!")
 
-        else:
+        elif len(parameter)==2:
             # 将输入框排列组合填入keypair
             for tagset in permutations(xpaths[0].values(), 2):
                 _send_keys(driver, tagset[0], parameter['user'])
@@ -100,7 +100,21 @@ def login(driver, xpaths, parameter):
                     if click(driver, xpaths[1][ele]):
                         return True
                     else: 
-                        print("[Debug] The login page didn't update after click!")                
+                        print("[Debug] The login page didn't update after click!") 
+  
+        elif len(parameter)==1:
+            for key in xpaths[0].keys():
+                pwd=driver.find_element_by_xpath(xpaths[0][key])
+                try:
+                    pwd.send_keys(parameter['pass'])
+                except(ElementNotInteractableException):
+                    pass
+                for ele in xpaths[1].keys():
+                    if click(driver, xpaths[1][ele]):
+                        return True 
+                    else:
+                        print("The login page didn't update after click!")
+                print("We can't find the login button!")
     return False
 
 
@@ -157,13 +171,13 @@ def click(driver, element_path):
 
 
 # 寻找当前页面的所有a标签
-def find_all_a(page,req_urls):
+def find_all_a(page,req_urls,local_ip):
     hrefs = []
     soup = BeautifulSoup(page, 'html.parser')
 
     for k in soup.find_all('a'):
         try:
-            if(k['href'] not in req_urls):
+            if(k['href'] not in req_urls and local_ip in k['href']):
                 hrefs.append(k['href'])
         except(KeyError):
             continue
@@ -172,7 +186,7 @@ def find_all_a(page,req_urls):
 
 
 # 寻找当前页面和子页面的所有Button并点击 递归实现（子页面即url不变但通过php或js实现内容变化之后的页面）
-def find_and_click(driver, req_urls, wait_to_req):
+def find_and_click(driver, req_urls, wait_to_req,ip):
     #current_page = driver.execute_script("return document.body.innerHTML").encode('utf-8').decode('latin-1')
     current_page = driver.execute_script("return document.documentElement.outerHTML").encode('utf-8').decode('latin-1')
     buttons = get_all_XPath(driver, current_page)[1] # 当前页面的所有button的xpath的字典
@@ -185,16 +199,17 @@ def find_and_click(driver, req_urls, wait_to_req):
             if click(driver, button):#至少子页面有更新
                 # 如果更新了url且不在req_urls和wait_to_req中
                 if(driver.current_url != current_url and driver.current_url not in req_urls and driver.current_url not in wait_to_req):
-                    wait_to_req.append(driver.current_url)
-                    print("[*] The wait_to_req list append: %s" % driver.current_url)
-                    driver.get(current_url) 
-                    continue
+                    if(ip in driver.current_url):
+                        wait_to_req.append(driver.current_url)
+                        print("[*] The wait_to_req list append: %s" % driver.current_url)
+                        driver.get(current_url) 
+                        continue
                 elif(driver.current_url != current_url and (driver.current_url in req_urls or driver.current_url in wait_to_req)):
                     driver.get(current_url) 
                     continue
 
                 else:
-                    find_and_click(driver, req_urls, wait_to_req)
+                    find_and_click(driver, req_urls, wait_to_req,ip)
             else:
                 continue
         except(InvalidSelectorException):
@@ -210,7 +225,7 @@ def main(login_url, key_pair):
         login_url = input("Please enter url:")
 
     print("[*] The Bamboo Web Crawler is set up to access %s" % login_url)
-
+    local_ip=re.findall(r"\d+\.?\d+\.?\d+\.?\d+\.?\d*",login_url)
     req_urls = [] # 维护该站点已点击的页面url
     wait_to_req = [] # 维护该站点待请求的url序列
 
@@ -222,7 +237,7 @@ def main(login_url, key_pair):
     login_page = request(driver, login_url)
 
     # 开启对Login界面请求的监听
-    sni1 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_login.pcap' -name Loginsni", shell=True, cwd="/home/jackfromeast/bamboofuzz/spider", encoding="utf-8", preexec_fn=os.setsid)
+    sni1 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_login.pcap' -name Loginsni", shell=True, cwd="/home/summer/Documents/BambooFuzz-fuzz-dev/spider", encoding="utf-8", preexec_fn=os.setsid)
     time.sleep(3) # 等待启动spider1
 
     elements_in_login = get_all_XPath(driver, login_page)
@@ -237,7 +252,7 @@ def main(login_url, key_pair):
     os.killpg(os.getpgid(sni1.pid), signal.SIGTERM)
     
     # 成功登陆后准备爬取整站，开启监听
-    sni2 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_main.pcap' -name Sitesni -timeout 300", shell=True, cwd="/home/jackfromeast/bamboofuzz/spider", encoding="utf-8", preexec_fn=os.setsid)
+    sni2 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_main.pcap' -name Sitesni -timeout 300", shell=True, cwd="/home/summer/Documents/BambooFuzz-fuzz-dev/spider", encoding="utf-8", preexec_fn=os.setsid)
     time.sleep(3) # 等待spider2启动
 
     wait_to_req.append(driver.current_url)
@@ -257,12 +272,12 @@ def main(login_url, key_pair):
         current_page = driver.execute_script("return document.documentElement.outerHTML").encode('utf-8').decode('latin-1')
 
         # 更新待请求的url序列
-        wait_to_req = wait_to_req + find_all_a(current_page,req_urls)
+        wait_to_req = wait_to_req + find_all_a(current_page,req_urls,local_ip[0])
         wait_to_req = list(set(wait_to_req))
 
         # 寻找当前页面及其子页面的所有Button并点击 
         # 注意此函数下driver的url是不变的，对应的是同一页面
-        find_and_click(driver, req_urls, wait_to_req)
+        find_and_click(driver, req_urls, wait_to_req,local_ip[0])
         
         print("[*] The crawler has clicked all the buttons on %s, Moving next!\n" % driver.current_url)
 
@@ -275,4 +290,5 @@ def main(login_url, key_pair):
 
 
 if __name__ =='__main__':
-    main("http://192.168.0.1/", key_pair={'user': 'Admain', 'pass': ''})
+    #main("http://192.168.0.1/", key_pair={'user': 'Admain', 'pass': ''})
+    main("http://192.168.0.1/Login.html", key_pair={'pass': ''})

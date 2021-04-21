@@ -729,7 +729,7 @@ def s_mirror(primitive_name=None, name=None):
     blocks.CURRENT.push(Mirror(name=name, primitive_name=primitive_name, request=blocks.CURRENT))
 
 
-def s_string(value="", size=None, padding=b"\x00", encoding="ascii", fuzzable=True, max_len=None, name=None):
+def s_string(value="", size=None, padding=b"\x00", encoding="ascii", fuzzable=True, max_len=None,brother=0,level=0,name=None):
     """
     Push a string onto the current block stack.
 
@@ -763,6 +763,8 @@ def s_string(value="", size=None, padding=b"\x00", encoding="ascii", fuzzable=Tr
             encoding=encoding,
             max_len=max_len,
             fuzzable=fuzzable,
+            brother=brother,
+            level=level,
         )
     )
 

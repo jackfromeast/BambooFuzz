@@ -40,101 +40,36 @@ class String(Fuzzable):
 
     # store fuzz_library as a class variable to avoid copying the ~70MB structure across each instantiated primitive.
     # Has to be sorted to avoid duplicates
+    
     _fuzz_library = [
-        "!@#$%%^#$%#$@#$%$$@#$%^^**(()",
-        "",  # strings ripped from spike (and some others I added)
-        "$(reboot)",
-        "$;reboot",
-        "%00",
-        "%00/",
-        "%01%02%03%04%0a%0d%0aADSF",
-        "%01%02%03@%04%0a%0d%0aADSF",
-        "%0a reboot %0a",
-        "%0Areboot",
-        "%0Areboot%0A",
-        "%0DCMD=$'reboot';$CMD",
-        '%0DCMD=$"reboot";$CMD',
-        "%0Dreboot",
-        "%0Dreboot%0D",
-        "%\xfe\xf0%\x00\xff",
-        "%\xfe\xf0%\x01\xff" * 20,
-        "%n" * 100,  # format strings.
-        "%n" * 500,
-        "%s" * 100,
-        "%s" * 500,
-        "%u0000",
-        "& reboot &",
-        "& reboot",
-        "&&CMD=$'reboot';$CMD",
-        '&&CMD=$"reboot";$CMD',
-        "&&reboot",
-        "&&reboot&&",
-        "&CMD=$'reboot';$CMD",
-        '&CMD=$"reboot";$CMD',
-        "&reboot",
-        "&reboot&",
-        "'reboot'",
-        "..:..:..:..:..:..:..:..:..:..:..:..:..:",
-        "/%00/",
-        "/." * 5000,
-        "/.../" + "B" * 5000 + "\x00\x00",
-        "/.../.../.../.../.../.../.../.../.../.../",
-        "/../../../../../../../../../../../../boot.ini",
-        "/../../../../../../../../../../../../etc/passwd",
-        "/.:/" + "A" * 5000 + "\x00\x00",
-        "/\\" * 5000,
-        "/index.html|reboot|",
-        "; reboot",
-        ";CMD=$'reboot';$CMD",
-        ';CMD=$"reboot";$CMD',
-        ";reboot",
-        ";reboot/n",
-        ";reboot;",
-        ";reboot|",
-        ";system('reboot')",
-        ";|reboot|",
-        '<!--#exec cmd="reboot"-->',
-        "<>" * 500,  # sendmail crackaddr (http://lsd-pl.net/other/sendmail.txt)
-        "<reboot",
-        "<reboot%0A",
-        "<reboot%0D",
-        "<reboot;",
-        '"%n"' * 500,
-        '"%s"' * 500,
-        "\\\\*",
-        "\\\\?\\",
-        "\nreboot\n",
-        "\r\n" * 100,  # miscellaneous.
-        "^CMD=$'reboot';$CMD",
-        '^CMD=$"reboot";$CMD',
-        "^reboot",
-        "`reboot`",
-        "a);reboot",
-        "a);reboot;",
-        "a);reboot|",
-        "a)|reboot",
-        "a)|reboot;",  # fuzzdb command injection
-        "a;reboot",
-        "a;reboot;",
-        "a;reboot|",
-        "a|reboot",
-        "CMD=$'reboot';$CMD",
-        'CMD=$"reboot";$CMD',
-        "FAIL||CMD=$'reboot';$CMD",
-        'FAIL||CMD=$"reboot";$CMD',
-        "FAIL||reboot",
-        "reboot",
-        "reboot;",
-        "reboot|",
-        "| reboot",
-        "|CMD=$'reboot';$CMD",
-        '|CMD=$"reboot";$CMD',
-        "|reboot",
-        "|reboot;",
-        "|reboot|",
-        "||reboot;",
-        "||reboot|",
-    ]
+    "!@#$%%^#$%#$@#$%$$@#$%^^**(()",
+    "%00",
+    "%00/",
+    "%01%02%03%04%0a%0d%0aADSF",
+    "%01%02%03@%04%0a%0d%0aADSF",
+    "%\xfe\xf0%\x00\xff",
+    "%\xfe\xf0%\x01\xff" * 20,
+    "%n" * 100,  # format strings.
+    "%n" * 500,
+    "%s" * 100,
+    "%s" * 500,
+    "%u0000",
+    "..:..:..:..:..:..:..:..:..:..:..:..:..:",
+    "/%00/",
+    "/." * 5000,
+    "/.../" + "B" * 5000 + "\x00\x00",
+    "/.../.../.../.../.../.../.../.../.../.../",
+    "/../../../../../../../../../../../../boot.ini",
+    "/../../../../../../../../../../../../etc/passwd",
+    "/.:/" + "A" * 5000 + "\x00\x00",
+    "/\\" * 5000,
+    '"%n"' * 500,
+       '"%s"' * 500,
+    "<>" * 500,  # sendmail crackaddr (http://lsd-pl.net/other/sendmail.txt)
+    "\\\\*",
+    "\\\\?\\",
+    "\r\n" * 100,  # miscellaneous.
+]
 
     long_string_seeds = [
         "C",
@@ -166,73 +101,13 @@ class String(Fuzzable):
         "\xFE",  # expands to 4 characters under utf1
         "\xFF",  # expands to 4 characters under utf1
     ]
-    _cmd_fuzz_library=[
-        "$(id)",
-        "$;id",
-        "%0a id %0a",
-        "%0Aid",
-        "%0Aid%0A",
-        "%0DCMD=$'id';$CMD",
-        '%0DCMD=$"id";$CMD',
-        "%0Did",
-        "%0Did%0D",
-        "& id &",
-        "& id",
-        "&&CMD=$'id';$CMD",
-        '&&CMD=$"id";$CMD',
-        "&&id",
-        "&&id&&",
-        "&CMD=$'id';$CMD",
-        '&CMD=$"id";$CMD',
-        "&id",
-        "&id&",
-        "'id'",
-        "/index.html|id|",
-        "; id",
-        ";CMD=$'id';$CMD",
-        ';CMD=$"id";$CMD',
-        ";id",
-        ";id/n",
-        ";id;",
-        ";id|",
-        ";system('id')",
-        ";|id|",
-        '<!--#exec cmd="id"-->',
-        "<id",
-        "<id%0A",
-        "<id%0D",
-        "<id;",
-        "\nid\n",
-        "^CMD=$'id';$CMD",
-        '^CMD=$"id";$CMD',
-        "^id",
-        "`id`",
-        "a);id",
-        "a);id;",
-        "a);id|",
-        "a)|id",
-        "a)|id;",  # fuzzdb command injection
-        "a;id",
-        "a;id;",
-        "a;id|",
-        "a|id",
-        "CMD=$'id';$CMD",
-        'CMD=$"id";$CMD',
-        "FAIL||CMD=$'id';$CMD",
-        'FAIL||CMD=$"id";$CMD',
-        "FAIL||id",
-        "id",
-        "id;",
-        "id|",
-        "| id",
-        "|CMD=$'id';$CMD",
-        '|CMD=$"id";$CMD',
-        "|id",
-        "|id;",
-        "|id|",
-        "||id;",
-        "||id|",
-    ]
+  
+    _cmd_fuzz_library=[]
+    with open('./boofuzz-src/boofuzz/primitives/inj_seeds.txt','r') as fi:
+        for w in fi.readlines():
+            w=w.replace('\n','')
+            _cmd_fuzz_library.append(w)
+
     vul_array=["request_uri","content-Length","datetime","service","submit_button","user_agent","authorization"
     "ping_addr","dnsserver","post_content","cookie","ssid","login","user_pwd","user_name","password","date"
     "html_response_page","src","name","wepencryption","body","jump","request","content","time","submit","addr","post","response"]
@@ -283,10 +158,10 @@ class String(Fuzzable):
     _variable_mutation_multipliers = [2, 10, 100]
 
     def __init__(
-        self, name=None, default_value="", size=None, padding=b"\x00", encoding="utf-8", max_len=None, *args, **kwargs
+        self, brother=0,level=0,name=None, default_value="", size=None, padding=b"\x00", encoding="utf-8", max_len=None, *args, **kwargs
     ):
         super(String, self).__init__(name=name, default_value=default_value, *args, **kwargs)
-
+      
         self.size = size
         self.max_len = max_len
         if self.size is not None:
@@ -297,7 +172,8 @@ class String(Fuzzable):
             self.padding = self.padding.encode(self.encoding)
         self._static_num_mutations = None
         self.random_indices = {}
-
+        self.brother=brother
+        self.level=level
         random.seed(0)  # We want constant random numbers to generate reproducible test cases
         previous_length = 0
         # For every length add a random number of random indices to the random_indices dict. Prevent duplicates by
@@ -322,20 +198,23 @@ class String(Fuzzable):
         #  [x for _, _, x in sorted(suggestions)]不用排序
         l=len(suggestions)
         q=len(suggestions)/len(array)#命中率
-        return q*(l*10-l*(l-1))  #等差数列求和乘以命中率
+        return q*(l*10-l*(l-1))*10  #等差数列求和乘以命中率
         
 
     # 远程命令执行指数计算【与变异个数有关和fuzz库有关】
     def _vuln_compute(self,layer,brother):
-        return 0.5*(layer+brother)*math.log(0.5*(layer+brother))+self._match(self.vul_array,self._name)
+        vuln=0.5*(layer+brother)*math.log(0.5*(layer+brother))+self._match(self.vul_array,self._name)
+        return vuln
 
     # 溢出指数排序【与变异长度有关】
     def _overflow_compute(self,layer,brother):
-        return 0.5*(layer+brother)*math.log(0.5*(layer+brother))+self._match(self.overflow_array,self._name)
+        overflow=0.5*(layer+brother)*math.log(0.5*(layer+brother))+self._match(self.overflow_array,self._name)
+        return overflow
     
     # 信息泄露指数计算【与fuzz_library有关】
     def _leak_compute(self,layer,brother):
-        return 0.5*(layer+brother)*math.log(0.5*(layer+brother))+1.5*self._match(self.leakage_array,self._name)
+        leak=0.5*(layer+brother)*math.log(0.5*(layer+brother))+1.5*self._match(self.leakage_array,self._name)
+        return leak
 
 
     # 给定一个序列，生成若干给定序列的可选字符串长度
@@ -361,7 +240,7 @@ class String(Fuzzable):
             for size in self._extra_long_string_lengths:
                 if self.max_len is None or size <= self.max_len:
                     data = sequence * math.ceil(size / len(sequence))
-                    print("size:"+str(size))
+                    #print("size:"+str(size))
                     yield data[:size]
                 else:
                     break
@@ -419,42 +298,48 @@ class String(Fuzzable):
         Yields:
             str: Mutations
         """
-        layer=3
-        brother=3
+        
         last_val = None
-        vuln=self._vuln_compute(layer,brother)
-        overflow=self._overflow_compute(layer,brother)
-        leak=self._leak_compute(layer,brother)
+        vuln=self._vuln_compute(self.level,self.brother)
+        overflow=self._overflow_compute(self.level,self.brother)
+        leak=self._leak_compute(self.level,self.brother)
         # 根据脆弱性指数/增加乘数指数
-        if(vuln>10):
-            for i in range(2,vuln):
-                if i!=10 and i!=100:
-                    self._variable_mutation_multipliers.append(i)
-            self._fuzz_library.extend(self._cmd_fuzz_library)
+        #print("vuln:"+str(vuln))
+        #print("overflow:"+str(overflow))
+        #print("leak:"+str(leak))
+        #if(vuln>20):
+            # for i in range(2,vuln):
+            #     if i!=10 and i!=100:
+            #         self._variable_mutation_multipliers.append(i)
+        self._fuzz_library.extend(self._cmd_fuzz_library[0:min(math.ceil(vuln)*2,len(self._cmd_fuzz_library))])
         # 根据溢出指数增加长字符串的长度
         self._extra_long_string_lengths.append(math.ceil(overflow*100000)) 
         self._extra_long_string_lengths.append(math.ceil(overflow*200000)) 
         # 根据泄露指数增加fuzz库
         if(leak>20):
-            self._fuzz_library.extend(self._info_library)
+            self._fuzz_library=self._info_library
         #print("your algorithm is OK!")
         i=0
         # 产生fuzz_library里的string、string乘以某些倍数之后、长字符
         for val in itertools.chain(
-            self._fuzz_library,
-            self._yield_void_mutations(default_value),
-            self._yield_diff_type_mutations(default_value),
-            self._yield_variable_mutations(default_value),
             self._yield_long_strings(self.long_string_seeds),
+            self._yield_variable_mutations(default_value),
+            self._yield_diff_type_mutations(default_value),
+            self._yield_void_mutations(default_value),
+            self._fuzz_library,
+            # self._yield_void_mutations(default_value),
+            # self._yield_diff_type_mutations(default_value),
+            # self._yield_variable_mutations(default_value),
+            # self._yield_long_strings(self.long_string_seeds),
         ):
             i+=1
-            print("Everything is OK! i="+str(i))
+            #print("Everything is OK! i="+str(i))
             current_val = self._adjust_mutation_for_size(val)
             if last_val == current_val and current_val!="" :#不能产生和前一个string重复的数据
                 continue
             last_val = current_val
             yield current_val
-
+   
         # TODO: Add easy and sane string injection from external file/s
         
     # six是专门用来兼容Python 2 和 Python 3 的库
