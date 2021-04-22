@@ -69,6 +69,7 @@ chmod a+x ${WORK_DIR}/image/firmadyne/debug.sh
 
 sleep 1
 sync
+sleep 1
 umount ${WORK_DIR}/image > /dev/null
 del_partition ${DEVICE:0:$((${#DEVICE}-2))}
 
