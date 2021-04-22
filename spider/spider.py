@@ -70,7 +70,9 @@ def login(driver, xpaths, parameter):
     xpaths: 登陆界面的可交互标签的xpath
     parameter: 用户名密码对
     """
-
+    login_url=driver.current_url
+    regex = re.compile(r'[a-zA-z]+://[\d+\.]*/[^\s]+')
+    match = regex.search(login_url) 
     # 如果不存在输入框或者登陆框
     if(len(xpaths[0]) == 0 or len(xpaths[1]) == 0):
         print("[debug] Didn't find where to send usr#pwd or where to click!")
@@ -84,24 +86,36 @@ def login(driver, xpaths, parameter):
             # 遍历点击所有button
             for ele in xpaths[1].keys():
                 if click(driver, xpaths[1][ele]):
-                    return True
+                    if login_url==driver.current_url:
+                        if match==None:#页面URL只有IP的情况
+                            return True
+                        else:
+                            continue
+                    else:
+                        return True
                 # 如果没有监测到页面刷新，判断是否登陆成功
                 else:
-                    print("[Debug] The login page didn't update after click!")
+                    print("[Debug] The login page didn't update after click! try again!")
 
         elif len(parameter)==2:
             # 将输入框排列组合填入keypair
             for tagset in permutations(xpaths[0].values(), 2):
                 _send_keys(driver, tagset[0], parameter['user'])
                 _send_keys(driver, tagset[1], parameter['pass'])
-
-                # 遍历点击所有button
+                print("cookie1:"+str(driver.get_cookies()))
                 for ele in xpaths[1].keys():
-                    if click(driver, xpaths[1][ele]):
-                        return True
-                    else: 
-                        print("[Debug] The login page didn't update after click!") 
-  
+                    if click(driver, xpaths[1][ele]): 
+                        if login_url==driver.current_url:
+                            if match==None:#页面URL只有IP的情况
+                                return True
+                            else:
+                                continue
+                        else:
+                            return True
+                    # 如果没有监测到页面刷新，判断是否登陆成功
+                    else:
+                        print("[Debug] The login page didn't update after click! try again!")
+    
         elif len(parameter)==1:
             for key in xpaths[0].keys():
                 pwd=driver.find_element_by_xpath(xpaths[0][key])
@@ -110,10 +124,17 @@ def login(driver, xpaths, parameter):
                 except(ElementNotInteractableException):
                     pass
                 for ele in xpaths[1].keys():
-                    if click(driver, xpaths[1][ele]):
-                        return True 
+                    if click(driver, xpaths[1][ele]): 
+                        if login_url==driver.current_url:
+                            if match==None:#页面URL只有IP的情况
+                                return True
+                            else:
+                                continue
+                        else:
+                            return True
+                    # 如果没有监测到页面刷新，判断是否登陆成功
                     else:
-                        print("The login page didn't update after click!")
+                        print("[Debug] The login page didn't update after click! try again!")
                 print("We can't find the login button!")
     return False
 
@@ -290,5 +311,5 @@ def main(login_url, key_pair):
 
 
 if __name__ =='__main__':
-    #main("http://192.168.0.1/", key_pair={'user': 'Admain', 'pass': ''})
-    main("http://192.168.0.1/Login.html", key_pair={'pass': ''})
+    main("http://192.168.0.1/", key_pair={'user': 'Admain', 'pass': '8787'})
+    #main("http://192.168.0.1/Login.html", key_pair={'pass': ''})
