@@ -9,8 +9,9 @@
 import re
 import xml.etree.ElementTree as ET
 
-# 应修改为上级目录下boofuzz！！！！
-from boofuzz import *
+import sys
+import os
+sys.path.insert(1,os.path.abspath('./boofuzz-src/'))
 
 from .treelib import Tree
 from .utils import *
@@ -33,10 +34,9 @@ class MsgTree(Tree):
         tree.create_node(tag="optContent", identifier="optContent", parent="msg")
         return tree
     
-    # 装饰器静态方法
-    @staticmethod
+
     # 生成requestLine树
-    def get_requestLine(header_dic={}):
+    def get_requestLine(self, header_dic={}):
         """
         初始化requestLine子树. 
         返回 msgtree.
@@ -92,10 +92,8 @@ class MsgTree(Tree):
         return new_tree
 
 
-
-    @staticmethod
     # 生成Headers树
-    def get_headers(header_dic={}):
+    def get_headers(self, header_dic={}):
         """
         初始化Headers子树. 
         返回 msgtree.
@@ -121,9 +119,8 @@ class MsgTree(Tree):
         return new_tree
 
 
-    @staticmethod
     # 生成optContent树
-    def get_optContent(payload):
+    def get_optContent(self, payload):
         """
         初始化optContent子树. 
         返回 msgtree, etree.
@@ -144,6 +141,14 @@ class MsgTree(Tree):
             # 建立xml-info
             new_tree.create_node(tag="xml-info", identifier="xml-info", parent="xml", data=xml_statement)
         
+        # 添加 json 解析部分
+        elif self.__is_json(payload):
+            # 如果传入不是str, 在这个函数进行修改
+            new_etree = None
+            new_tree.create_node(tag = "optContent", identifier="optContent")
+            new_tree.create_node(tag = "json", identifier="data", parent="optContent")
+            self.__json_dic_tree(new_tree, "data", eval(payload))
+
         # 数据类型为data键值对, 存入对应data
         else:
             new_etree = None
@@ -167,19 +172,9 @@ class MsgTree(Tree):
         cousins = self.children(parent.tag)
         return cousins
         
-
-    # Dictionary generated from leaf nodes
-    # def fuzz_element_dic(self):
-    #     fuzz_element = {}
-    #     leaves = self.leaves()
-    #     fuzz_element["Path"] = self.get_node("Path").data
-    #     for leave in leaves:
-    #         fuzz_element[leave.tag] = leave.data
-    #     return fuzz_element
     
-    @staticmethod
     # 构建树群
-    def build_tree_list(file_path):
+    def build_tree_list(self, file_path):
         """ 
         根据pcap文件, 构建存放树list. 
         返回 list. 
@@ -193,13 +188,13 @@ class MsgTree(Tree):
             # 如果为GET类型
             if header["Method"] == b"GET":
                 couple = []
-                tree = MsgTree()
+              
                 # 根节点
-                msgtree = tree.initial()
+                msgtree = self.initial()
 
                 # requestLine 和 Headers 分支
-                requestLine = MsgTree.get_requestLine(header)
-                headers = MsgTree.get_headers(header)
+                requestLine = self.get_requestLine(header)
+                headers = self.get_headers(header)
 
                 # 子树接入
                 msgtree.merge("requestLine", requestLine)
@@ -212,14 +207,14 @@ class MsgTree(Tree):
 
             else:
                 couple = []
-                tree = MsgTree()
+                
                 # 根节点
-                msgtree = tree.initial()
+                msgtree = self.initial()
 
                 # requestLine 和 Headers 和 optContent 分支
-                requestLine = MsgTree.get_requestLine(header)
-                headers = MsgTree.get_headers(header)
-                optContent, etree = MsgTree.get_optContent(payload)
+                requestLine = self.get_requestLine(header)
+                headers = self.get_headers(header)
+                optContent, etree = self.get_optContent(payload)
 
                 # 子树接入
                 msgtree.merge("requestLine", requestLine)
@@ -233,13 +228,13 @@ class MsgTree(Tree):
                 # msgtree.show()
         return(tree_list)
     
-
-    def build_login_tree(file_path):
+    # 构建 login tree
+    def build_login_tree(self, file_path):
         """
         用于获取流程中第一个 pcap 文件的 Login 请求数据包
         返回 list
         """
-        trees_list = MsgTree.build_tree_list(file_path)
+        trees_list = self.build_tree_list(file_path)
         login = []
         trees_list.sort(key=lambda i:len(i), reverse=True)
         for couple in trees_list:
@@ -250,6 +245,70 @@ class MsgTree(Tree):
                 login = couple
                 break
         return login
+
+
+    # 生成 json 部分
+    def __json_dic_tree(self, tree, nid, r={}, num_index=1):
+        """
+        根据 json 中 dic 生成子树, 并接入树中
+        返回 tree
+        """
+        for key, value in r.items():
+            # 当前 value 为 dict
+            if isinstance(value, dict):
+                node = Node(tag=key, identifier=nid+f"-d{num_index}")
+                tree.add_node(node, parent=nid)
+                self.__json_dic_tree(tree, node.identifier, value, num_index)
+            
+            # 当前 value 为 list
+            elif isinstance(value, list):
+                node = Node(tag=key, identifier=nid+f"-l{num_index}")
+                tree.add_node(node, parent=nid)
+                self.__json_list_tree(tree, node.identifier, value, num_index)
+            
+            # 当前 value 为 str
+            else:
+                node = Node(tag=key, data=value, identifier=nid+f"-s{num_index}")
+                tree.add_node(node, parent=nid)
+
+            num_index = num_index + 1
+        
+        return tree
+                
+    def __json_list_tree(self, tree, nid, r=[], num_index=1):
+        """
+        根据 json 中 dic 生成子树, 并接入树中
+        返回 tree
+        """
+        for value in r :
+            
+            # 当前 value 为 dict
+            if isinstance(value, dict):
+                node = Node(tag="list", identifier=nid+f"-d{num_index}")
+                tree.add_node(node, parent=nid)
+                self.__json_dic_tree(tree, node.identifier, value, num_index)
+
+            # 当前 value 为 list
+            else:
+                node = Node(identifier=nid+f"-l{num_index}")
+                tree.add_node(node, parent=nid)
+                self.__json_list_tree(tree, node.identifier, value, num_index)
+
+            num_index = num_index + 1
+
+        return tree
+
+    # 判断是否 json
+    def __is_json(self, myjson):
+        """
+        判断该 string 是否为 json 类型
+        返回 True or False
+        """
+        try:
+            json_object = json.loads(myjson)
+        except ValueError:
+            return False
+        return True
 
 
 
