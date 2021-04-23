@@ -1,0 +1,6 @@
+.DS_Store
+.vscode
+firmae-src/scratch/*
+firmae-src/images/*
+spider/packets/*
+*/__pycache__
