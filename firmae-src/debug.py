@@ -92,7 +92,7 @@ if __name__ == '__main__':
     fh.show_info()
     fh.connect()
     fh.send("mv /lib /orglib && mv /dyslib /lib\n")#dilision
-    fh.send("cp /firmadyne/Pythoninstall/bin/python3.7 /bin/python3.7\n")#dilision
+    fh.send("cp /firmadyne/Pythoninstall/bin/python3.7 /bin/python\n")#dilision
 
     def menu():
         print('------------------------------')
@@ -100,8 +100,7 @@ if __name__ == '__main__':
         print('------------------------------')
         print('1. connect to shell')
         print('2. file transfer')
-        print('3. start monitor')
-        print('4. exit')
+        print('3. exit')
 
     while 1:
         menu()
