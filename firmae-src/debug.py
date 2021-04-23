@@ -117,11 +117,8 @@ if __name__ == '__main__':
         elif select == 2:
             target_filepath = input('[+] target file path : ')
             fh.file_transfer(target_filepath)
-        elif select == 3:
-            fh.send("./firmadyne/Pythoninstall/bin/python3.7 /firmadyne/monitor/process_monitor_unix.py > /firmadyne/monitor/monitor.log\n")
-        elif select == 4:
+        elif select ==3:
             break
         else:
             print('error : invaild selection')
         print('\n')
-
