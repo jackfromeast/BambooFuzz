@@ -100,7 +100,7 @@ function run_emulation()
 
     IID=`./scripts/util.py get_iid $INFILE $PSQL_IP`
     
-    ./clean.sh ${IID} 2>&1 >/dev/null || true #一开始阶clean并且防止出错
+    ./clean.sh ${IID} || true  2>&1 >/dev/null #一开始阶clean并且防止出错
 
     if [ ! "${IID}" ]; then
         echo -e "[\033[31m-\033[0m] extractor.py failed!"
@@ -279,7 +279,7 @@ function run_emulation()
 
     echo "[*] cleanup"
     echo "======================================"
-    ./clean.sh ${IID} 2>&1 >/dev/null || true 
+    ./clean.sh ${IID} || true  2>&1 >/dev/null 
 }
 
 FIRMWARE=${3}
