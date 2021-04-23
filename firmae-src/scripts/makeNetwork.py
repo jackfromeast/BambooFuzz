@@ -48,16 +48,6 @@ QEMU_ROOTFS=`get_qemu_disk ${ARCHEND}`
 WORK_DIR=`get_scratch ${IID}`
 DEVICE=`add_partition "${WORK_DIR}/image.raw"`
 mount ${DEVICE} ${WORK_DIR}/image > /dev/null
-if [ ! -d "${IMAGE_DIR}/dyslib" ]; then
-  ##dilision
-    cp -r "${SCRIPT_DIR}/dyslib" "${IMAGE_DIR}/dyslib" || true
-    chmod a+x "${IMAGE_DIR}/dyslib" || true
-    ##dilision
-    cp -r "${SCRIPT_DIR}/Pythoninstall" "${IMAGE_DIR}/firmadyne/Pythoninstall" || true
-    chmod a+x "${IMAGE_DIR}/firmadyne/Pythoninstall" || true
-    cp -r "${SCRIPT_DIR}/../monitor" "${IMAGE_DIR}/firmadyne/monitor" || true
-    chmod a+x "${IMAGE_DIR}/firmadyne/monitor" || true
-fi
 
 if [ -d "${IMAGE_DIR}/orglib" ]; then
   ##dilision
@@ -65,6 +55,23 @@ if [ -d "${IMAGE_DIR}/orglib" ]; then
     mv "${IMAGE_DIR}/orglib" "${IMAGE_DIR}/lib" || true
     chmod a+x "${IMAGE_DIR}/dyslib" || true
     chmod a+x "${IMAGE_DIR}/lib" || true
+fi
+
+if [ ! -d "${IMAGE_DIR}/dyslib" ]; then
+  ##dilision
+    cp -r "${SCRIPT_DIR}/dyslib" "${IMAGE_DIR}/dyslib" || true
+    chmod a+x "${IMAGE_DIR}/dyslib" || true
+fi
+
+if [ ! -d "${IMAGE_DIR}/firmadyne/Pythoninstall" ]; then
+
+    ##dilision
+    cp -r "${SCRIPT_DIR}/Pythoninstall" "${IMAGE_DIR}/firmadyne/Pythoninstall" || true
+    chmod a+x "${IMAGE_DIR}/firmadyne/Pythoninstall" || true
+fi
+if [ ! -d "${IMAGE_DIR}/firmadyne/monitor" ]; then
+    cp -r "${SCRIPT_DIR}/monitor" "${IMAGE_DIR}/firmadyne/monitor" || true
+    chmod a+x "${IMAGE_DIR}/firmadyne/monitor" || true
 fi
 
 echo "%(NETWORK_TYPE)s" > ${WORK_DIR}/image/firmadyne/network_type
