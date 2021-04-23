@@ -15,13 +15,10 @@ SCRATCHDIR = ''
 SCRIPTDIR = ''
 
 QEMUCMDTEMPLATE = """#!/bin/bash
-
 set -e
 set -u
-
 ARCHEND=%(ARCHEND)s
 IID=%(IID)i
-
 if [ -e ./firmae.config ]; then
     source ./firmae.config
 elif [ -e ../firmae.config ]; then
@@ -34,28 +31,23 @@ else
 fi
 IMAGE_DIR=`get_fs_mount ${IID}`
 RUN_MODE=`basename ${0}`
-
 IMAGE=`get_fs ${IID}`
 if (echo ${ARCHEND} | grep -q "mips" && echo ${RUN_MODE} | grep -q "debug"); then
     KERNEL=`get_kernel ${ARCHEND} true`
 else
     KERNEL=`get_kernel ${ARCHEND} false`
 fi
-
 if (echo ${RUN_MODE} | grep -q "analyze"); then
     QEMU_DEBUG="user_debug=31 firmadyne.syscall=32"
 else
     QEMU_DEBUG="user_debug=0 firmadyne.syscall=1"
 fi
-
 QEMU=`get_qemu ${ARCHEND}`
 QEMU_MACHINE=`get_qemu_machine ${ARCHEND}`
 QEMU_ROOTFS=`get_qemu_disk ${ARCHEND}`
 WORK_DIR=`get_scratch ${IID}`
-
 DEVICE=`add_partition "${WORK_DIR}/image.raw"`
 mount ${DEVICE} ${WORK_DIR}/image > /dev/null
-
 if [ ! -d "${IMAGE_DIR}/dyslib" ]; then
   ##dilision
     cp -r "${SCRIPT_DIR}/dyslib" "${IMAGE_DIR}/dyslib" || true
@@ -63,28 +55,33 @@ if [ ! -d "${IMAGE_DIR}/dyslib" ]; then
     ##dilision
     cp -r "${SCRIPT_DIR}/Pythoninstall" "${IMAGE_DIR}/firmadyne/Pythoninstall" || true
     chmod a+x "${IMAGE_DIR}/firmadyne/Pythoninstall" || true
-    echo "PATH=\$PATH:/firmadyne/Pythoninstall/bin" >> "${IMAGE_DIR}/etc/profile"
+    cp -r "${SCRIPT_DIR}/../monitor" "${IMAGE_DIR}/firmadyne/monitor" || true
+    chmod a+x "${IMAGE_DIR}/firmadyne/monitor" || true
+fi
+
+if [ -d "${IMAGE_DIR}/orglib" ]; then
+  ##dilision
+    mv "${IMAGE_DIR}/lib" "${IMAGE_DIR}/dyslib" || true
+    mv "${IMAGE_DIR}/orglib" "${IMAGE_DIR}/lib" || true
+    chmod a+x "${IMAGE_DIR}/dyslib" || true
+    chmod a+x "${IMAGE_DIR}/lib" || true
 fi
 
 echo "%(NETWORK_TYPE)s" > ${WORK_DIR}/image/firmadyne/network_type
 echo "%(NET_BRIDGE)s" > ${WORK_DIR}/image/firmadyne/net_bridge
 echo "%(NET_INTERFACE)s" > ${WORK_DIR}/image/firmadyne/net_interface
-
 echo "#!/firmadyne/sh" > ${WORK_DIR}/image/firmadyne/debug.sh
 if (echo ${RUN_MODE} | grep -q "debug"); then
     echo "while (true); do /firmadyne/busybox nc -lp 31337 -e /firmadyne/sh; done &" >> ${WORK_DIR}/image/firmadyne/debug.sh
     echo "/firmadyne/busybox telnetd -p 31338 -l /firmadyne/sh" >> ${WORK_DIR}/image/firmadyne/debug.sh
 fi
 chmod a+x ${WORK_DIR}/image/firmadyne/debug.sh
-
 sleep 1
 sync
 sleep 1
 umount ${WORK_DIR}/image > /dev/null
 del_partition ${DEVICE:0:$((${#DEVICE}-2))}
-
 %(START_NET)s
-
 echo -n "Starting emulation of firmware... "
 %(QEMU_ENV_VARS)s ${QEMU} -m 1024 -M ${QEMU_MACHINE} -kernel ${KERNEL} \\
     %(QEMU_DISK)s -append "root=${QEMU_ROOTFS} console=ttyS0 nandsim.parts=64,64,64,64,64,64,64,64,64,64 %(QEMU_INIT)s rw debug print-fatal-signals=1 FIRMAE_NETWORK=${FIRMAE_NETWORK} FIRMAE_NVRAM=${FIRMAE_NVRAM} FIRMAE_KERNEL=${FIRMAE_KERNEL} FIRMAE_ETC=${FIRMAE_ETC} ${QEMU_DEBUG} PYTHONHOME=/firmadyne/Pythoninstall PATH=/sbin:/usr/sbin:/bin:/usr/bin:/firmadyne/Pythoninstall/bin  " \\
@@ -93,9 +90,7 @@ echo -n "Starting emulation of firmware... "
     -monitor unix:/tmp/qemu.${IID},server,nowait \\
     -display none \\
     %(QEMU_NETWORK)s | true
-
 %(STOP_NET)s
-
 echo "Done!"
 """
 
@@ -353,7 +348,6 @@ sudo ip link set ${HOSTNETDEV_%(I)i} up
 echo "Bringing up TAP device..."
 sudo ip link set ${HOSTNETDEV_%(I)i} up
 sudo ip addr add %(HOSTIP)s/24 dev ${HOSTNETDEV_%(I)i}
-
 echo "Adding route to %(GUESTIP)s..."
 sudo ip route add %(GUESTIP)s via %(GUESTIP)s dev ${HOSTNETDEV_%(I)i}
 """
