@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 import signal
 from selenium import webdriver
@@ -22,6 +23,15 @@ from itertools import permutations
 
 global req_urls
 global wait_to_req
+
+def stop_handler(signum, frame):
+    os.killpg(os.getpgid(sni2.pid), signal.SIGTERM)
+    os.killpg(os.getpgid(sni1.pid), signal.SIGTERM)
+
+    exit(0)
+
+# 如果爬虫被手动中断，发送终止信号到sniffer
+signal.signal(signal.SIGINT, stop_handler)
 
 # 获取一个页面的所有input和button标签的Xpath
 def get_all_XPath(driver, a_page):
@@ -52,14 +62,15 @@ def request(driver, url):
 def initialize_driver():
     #Create a chrome session
     chrome_options = Options()
-    #chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--disable-gpu')
     prefs = { "profile.managed_default_content_settings.images": 2 }
     chrome_options.add_experimental_option("prefs", prefs)
-    #driver = webdriver.Firefox()
-    driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver', chrome_options=chrome_options)
+    # driver = webdriver.Firefox()
+    # driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver', chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path='./chromedriver', chrome_options=chrome_options)
 
     return driver
 
@@ -164,6 +175,7 @@ def click(driver, element_path):
     except(TimeoutException):
         print("[Debug] Timeout and the page didn't update!")
         return False 
+
     except(ElementNotInteractableException):
         print("[Debug] The button doesn't display or can't interact with!Try to find more buttons!")
         element_list=driver.find_elements_by_xpath(element_path)
@@ -244,7 +256,8 @@ def main(login_url, key_pair):
     login_page = request(driver, login_url)
 
     # 开启对Login界面请求的监听
-    sni1 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_login.pcap' -name Loginsni", shell=True, cwd="/home/summer/Documents/BambooFuzz-fuzz-dev/spider", encoding="utf-8", preexec_fn=os.setsid)
+    global sni1
+    sni1 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_login.pcap' -name Loginsni", shell=True, cwd=sys.path[0], encoding="utf-8", preexec_fn=os.setsid)
     time.sleep(3) # 等待启动spider1
 
     elements_in_login = get_all_XPath(driver, login_page)
@@ -259,7 +272,8 @@ def main(login_url, key_pair):
     os.killpg(os.getpgid(sni1.pid), signal.SIGTERM)
     
     # 成功登陆后准备爬取整站，开启监听
-    sni2 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_main.pcap' -name Sitesni -timeout 300", shell=True, cwd="/home/summer/Documents/BambooFuzz-fuzz-dev/spider", encoding="utf-8", preexec_fn=os.setsid)
+    global sni2
+    sni2 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_main.pcap' -name Sitesni -timeout 300", shell=True, cwd=sys.path[0], encoding="utf-8", preexec_fn=os.setsid)
     time.sleep(3) # 等待spider2启动
 
     wait_to_req.append(driver.current_url)
@@ -298,4 +312,4 @@ def main(login_url, key_pair):
 
 if __name__ =='__main__':
     main("http://192.168.0.1/", key_pair={'user': 'Admain', 'pass': ''})
-    #main("http://192.168.0.1/Login.html", key_pair={'pass': ''})
+    # main("http://192.168.0.1/Login.html", key_pair={'pass': ''})
