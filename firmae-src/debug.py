@@ -91,6 +91,7 @@ if __name__ == '__main__':
     fh = firmadyne_helper(int(sys.argv[1]))
     fh.show_info()
     fh.connect()
+    fh.send("mv /lib /orglib && mv /dyslib /lib\n")#dilision
 
     def menu():
         print('------------------------------')
@@ -128,6 +129,7 @@ if __name__ == '__main__':
             target_filepath = input('[+] target file path : ')
             fh.file_transfer(target_filepath)
         elif select == 5:
+            fh.send("mv /lib /dyslib && mv /orglib /lib\n")#dilision
             break
         else:
             print('error : invaild selection')
