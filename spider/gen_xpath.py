@@ -25,11 +25,13 @@ class Xpath_Util:
     def generate_xpath(self,soup):
         "generate the xpath and assign the variable names"
         result_flag = False
+        locator=''
         for guessable_element in self.guessable_elements:
             self.elements = soup.find_all(guessable_element)#这里只找button或input元素
             for element in self.elements:
                 result_flag = False #每次取出一个新的元素都应该初始化这个标签
-                if (not element.has_attr("type")) or (element.has_attr("type") and element['type'] != "hidden"):#如果元素没有type或者type不被隐藏
+                if ((not element.has_attr("type")) or (element.has_attr("type") and element['type'] != "hidden")):#如果元素没有type或者type不被隐藏
+                # if element.is_displayed()==True:
                     #这里用每个已知属性试一下
                     for attr in self.known_attribute_list:
                         if element.has_attr(attr):#这里对一些常见属性进行判断
@@ -41,14 +43,15 @@ class Xpath_Util:
                                         self.button_xpaths["%s_%d"%(guessable_element, self.button_index)] = "%s"%(locator.encode('utf-8').decode('latin-1'))
                                         self.button_index+=1
                                     else:
-                                        self.input_xpaths["%s_%d"%(guessable_element, self.input_index)] = "%s"%(locator.encode('utf-8').decode('latin-1'))
-                                        self.input_index+=1
+                                        if(self.driver.find_elements_by_xpath(locator)[0].is_displayed()==True):
+                                            self.input_xpaths["%s_%d"%(guessable_element, self.input_index)] = "%s"%(locator.encode('utf-8').decode('latin-1'))
+                                            self.input_index+=1
                                     break       
                             except(InvalidSelectorException):
                               pass  
                     if(result_flag==False):
                         try:
-                            if guessable_element == 'button' and element.getText():
+                            if element.getText() and (guessable_element == 'button' or (guessable_element == 'input' and element.has_attr('onclick'))):
                                 button_text = element.getText() #获得内嵌的文字，比如说<a>登录</a>
                                 if element.getText() == button_text.strip():#strip()移除首位的空格 
                                     locator = xpath_obj.guess_xpath_button(guessable_element,"text()",element.getText())
@@ -58,13 +61,29 @@ class Xpath_Util:
                                     result_flag = True
                                     self.button_xpaths["%s_%d"%(guessable_element,self.button_index)] = "%s"%(locator.encode('utf-8').decode('latin-1'))
                                     self.button_index+=1
-                            else:
+                            if (result_flag==False) and (guessable_element == 'button' or (guessable_element == 'input' and element.has_attr('onclick'))):
                                 # if the variable name is already taken
-                                print (locator.encode('utf-8').decode('latin-1') + "----> guessable_element != 'button' or element.getText() is None")                       
+                                # print("new method begin!")
+                                locator=self.guess_xpath_all_attr(guessable_element,element)
+                                if len(self.driver.find_elements_by_xpath(locator))>=1:
+                                    element_list=self.driver.find_elements_by_xpath(locator) 
+                                    num=0                  
+                                    for ele in element_list:
+                                        # print(ele.is_displayed())
+                                        if(ele.is_displayed()==True):
+                                            num+=1                                     
+                                    # print("len:")
+                                    # print(num)
+                                    if num==1:
+                                        result_flag = True
+                                        self.button_xpaths["%s_%d"%(guessable_element,self.button_index)] = "%s"%(locator.encode('utf-8').decode('latin-1'))
+                                        self.button_index+=1       
                         except(InvalidSelectorException):
-                              pass  
+                              pass 
+                        if(result_flag==False): #经过所有操作之后发现还是找不到xpath         
+                            print(locator.encode('utf-8').decode('latin-1') + "---->the element doesn't diaplay!")
                 else:
-                    print("We are not supporting this gussable element")  
+                    print("We are not supporting this gussable element! the element doesn't diaplay")  
         for s in soup(['button','input']):
             s.extract()
         for child in soup.body.descendants:
@@ -76,6 +95,7 @@ class Xpath_Util:
     
     def guess_xpath_other(self,element):
         flag=False
+        locator=''
         for attr in self.known_attribute_list:
             if element.has_attr(attr):#这里对一些常见属性进行判断
                 locator = self.guess_xpath(element.name,attr,element)
@@ -97,13 +117,25 @@ class Xpath_Util:
                         locator = xpath_obj.guess_xpath_using_contains(element.name,"text()",tag_text.strip())                                                               
                     if len(self.driver.find_elements_by_xpath(locator))==1:
                         flag = True
-                        self.button_xpaths["%s_%d"%(guessable_element,self.button_index)] = "%s"%(locator.encode('utf-8').decode('latin-1'))
+                        self.button_xpaths["%s_%d"%(element.name,self.button_index)] = "%s"%(locator.encode('utf-8').decode('latin-1'))
                         self.button_index+=1
-                else:
-                    # if the variable name is already taken
-                    print (locator.encode('utf-8').decode('latin-1') + "----> element doesn't have text!")                  
+                if(flag==False):
+                    locator=self.guess_xpath_all_attr(guessable_element,element)
+                    if len(self.driver.find_elements_by_xpath(locator))>=1:
+                        element_list=self.driver.find_elements_by_xpath(locator) 
+                        num=0                  
+                        for ele in element_list:
+                            if(ele.is_displayed()==True):
+                                num+=1                                     
+                        if num==1:
+                            result_flag = True
+                            self.button_xpaths["%s_%d"%(guessable_element,self.button_index)] = "%s"%(locator.encode('utf-8').decode('latin-1'))
+                            self.button_index+=1  
             except(InvalidSelectorException):
-                    pass  
+                pass  
+        if(flag==False):
+            print(locator.encode('utf-8').decode('latin-1') + "---->the element doesn't diaplay!")                  
+           
         
 
     # 基于tag,属性来猜测xpath
@@ -116,8 +148,26 @@ class Xpath_Util:
         self.xpath = "//%s[@%s='%s']"%(tag,attr,element[attr])
  
         return  self.xpath
- 
-    # 基于tag,不常见属性来猜测button的xpath
+
+    def guess_xpath_all_attr(self,tag,element):
+        dic={}
+        for attr in self.known_attribute_list:
+            if element.has_attr(attr):
+                if type(element[attr]) is list:
+                    element[attr] = [i.encode('utf-8').decode('latin-1') for i in element[attr]]
+                    element[attr] = ' '.join(element[attr])
+                dic[attr]=element[attr]
+        xpath="//%s[" %tag
+        i=0
+        for key,value in dic.items():
+            if i==0:
+                xpath=xpath+("@%s='%s'"%(key,value))
+                i=1
+            else:
+                xpath=xpath+(" and @%s='%s'"%(key,value))
+        xpath=xpath+']'
+        return xpath
+    # 基于tag,内嵌文字属性来猜测button的xpath
     def guess_xpath_button(self,tag,attr,element):
         "Guess the xpath for button tag"
         self.button_xpath = "//%s[%s='%s']"%(tag,attr,element)
@@ -127,7 +177,6 @@ class Xpath_Util:
     def guess_xpath_using_contains(self,tag,attr,element):
         "Guess the xpath using contains function"
         self.button_contains_xpath = "//%s[contains(%s,'%s')]"%(tag,attr,element)
- 
         return self.button_contains_xpath
  
  

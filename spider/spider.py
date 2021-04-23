@@ -23,15 +23,6 @@ from itertools import permutations
 global req_urls
 global wait_to_req
 
-def stop_handler(signum, frame):
-    os.killpg(os.getpgid(sni2.pid), signal.SIGTERM)
-    os.killpg(os.getpgid(sni1.pid), signal.SIGTERM)
-
-    exit(0)
-    
-# 如果爬虫被手动中断，发送终止信号到sniffer
-signal.signal(signal.SIGINT, stop_handler)
-
 # 获取一个页面的所有input和button标签的Xpath
 def get_all_XPath(driver, a_page):
     # 初始化Soup
@@ -61,14 +52,14 @@ def request(driver, url):
 def initialize_driver():
     #Create a chrome session
     chrome_options = Options()
-    chrome_options.add_argument('--headless')
+    #chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--disable-gpu')
     prefs = { "profile.managed_default_content_settings.images": 2 }
     chrome_options.add_experimental_option("prefs", prefs)
     #driver = webdriver.Firefox()
-    driver = webdriver.Chrome(executable_path='./chromedriver', chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver', chrome_options=chrome_options)
 
     return driver
 
@@ -106,12 +97,12 @@ def login(driver, xpaths, parameter):
                 else:
                     print("[Debug] The login page didn't update after click! try again!")
 
-        elif len(parameter)==2:
+        else:
             # 将输入框排列组合填入keypair
             for tagset in permutations(xpaths[0].values(), 2):
                 _send_keys(driver, tagset[0], parameter['user'])
                 _send_keys(driver, tagset[1], parameter['pass'])
-                print("cookie1:"+str(driver.get_cookies()))
+                #print("cookie1:"+str(driver.get_cookies()))
                 for ele in xpaths[1].keys():
                     if click(driver, xpaths[1][ele]): 
                         if login_url==driver.current_url:
@@ -124,27 +115,7 @@ def login(driver, xpaths, parameter):
                     # 如果没有监测到页面刷新，判断是否登陆成功
                     else:
                         print("[Debug] The login page didn't update after click! try again!")
-    
-        elif len(parameter)==1:
-            for key in xpaths[0].keys():
-                pwd=driver.find_element_by_xpath(xpaths[0][key])
-                try:
-                    pwd.send_keys(parameter['pass'])
-                except(ElementNotInteractableException):
-                    pass
-                for ele in xpaths[1].keys():
-                    if click(driver, xpaths[1][ele]): 
-                        if login_url==driver.current_url:
-                            if match==None:#页面URL只有IP的情况
-                                return True
-                            else:
-                                continue
-                        else:
-                            return True
-                    # 如果没有监测到页面刷新，判断是否登陆成功
-                    else:
-                        print("[Debug] The login page didn't update after click! try again!")
-                print("We can't find the login button!")
+    print("We can't find the login button!")
     return False
 
 
@@ -194,8 +165,14 @@ def click(driver, element_path):
         print("[Debug] Timeout and the page didn't update!")
         return False 
     except(ElementNotInteractableException):
-        print("[Debug] The button doesn't display or can't interact with!")
-        return False
+        print("[Debug] The button doesn't display or can't interact with!Try to find more buttons!")
+        element_list=driver.find_elements_by_xpath(element_path)
+        for ele in element_list:
+            if(ele.is_displayed()==True):
+                try:
+                    ele.click()
+                except(ElementNotInteractableException):
+                    return False
 
     return True # 页面已刷新
 
@@ -267,8 +244,7 @@ def main(login_url, key_pair):
     login_page = request(driver, login_url)
 
     # 开启对Login界面请求的监听
-    global sni1
-    sni1 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_login.pcap' -name Loginsni", shell=True, cwd="/home/jackfromeast/bamboofuzz/spider", encoding="utf-8", preexec_fn=os.setsid)
+    sni1 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_login.pcap' -name Loginsni", shell=True, cwd="/home/summer/Documents/BambooFuzz-fuzz-dev/spider", encoding="utf-8", preexec_fn=os.setsid)
     time.sleep(3) # 等待启动spider1
 
     elements_in_login = get_all_XPath(driver, login_page)
@@ -281,11 +257,9 @@ def main(login_url, key_pair):
         else:
             print("[Debug] Failed to login in! Don't worry! Try again!")
     os.killpg(os.getpgid(sni1.pid), signal.SIGTERM)
-
     
     # 成功登陆后准备爬取整站，开启监听
-    global sni2
-    sni2 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_main.pcap' -name Sitesni -timeout 300", shell=True, cwd="/home/jackfromeast/bamboofuzz/spider", encoding="utf-8", preexec_fn=os.setsid)
+    sni2 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_main.pcap' -name Sitesni -timeout 300", shell=True, cwd="/home/summer/Documents/BambooFuzz-fuzz-dev/spider", encoding="utf-8", preexec_fn=os.setsid)
     time.sleep(3) # 等待spider2启动
 
     wait_to_req.append(driver.current_url)
@@ -324,4 +298,4 @@ def main(login_url, key_pair):
 
 if __name__ =='__main__':
     main("http://192.168.0.1/", key_pair={'user': 'Admain', 'pass': ''})
-    # main("http://192.168.0.1/Login.html", key_pair={'pass': ''})
+    #main("http://192.168.0.1/Login.html", key_pair={'pass': ''})
