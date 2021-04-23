@@ -90,7 +90,7 @@ umount ${WORK_DIR}/image > /dev/null
 del_partition ${DEVICE:0:$((${#DEVICE}-2))}
 %(START_NET)s
 echo -n "Starting emulation of firmware... "
-%(QEMU_ENV_VARS)s ${QEMU} -m 1024 -M ${QEMU_MACHINE} -kernel ${KERNEL} \\
+%(QEMU_ENV_VARS)s ${QEMU} -m 1536 -M ${QEMU_MACHINE} -kernel ${KERNEL} \\
     %(QEMU_DISK)s -append "root=${QEMU_ROOTFS} console=ttyS0 nandsim.parts=64,64,64,64,64,64,64,64,64,64 %(QEMU_INIT)s rw debug print-fatal-signals=1 FIRMAE_NETWORK=${FIRMAE_NETWORK} FIRMAE_NVRAM=${FIRMAE_NVRAM} FIRMAE_KERNEL=${FIRMAE_KERNEL} FIRMAE_ETC=${FIRMAE_ETC} ${QEMU_DEBUG} PYTHONHOME=/firmadyne/Pythoninstall PATH=/sbin:/usr/sbin:/bin:/usr/bin:/firmadyne/Pythoninstall/bin  " \\
     -serial file:${WORK_DIR}/qemu.final.serial.log \\
     -serial unix:/tmp/qemu.${IID}.S1,server,nowait \\
