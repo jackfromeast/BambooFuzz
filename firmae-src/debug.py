@@ -92,45 +92,34 @@ if __name__ == '__main__':
     fh.show_info()
     fh.connect()
     fh.send("mv /lib /orglib && mv /dyslib /lib\n")#dilision
+    fh.send("cp /firmadyne/Pythoninstall/bin/python3.7 /bin/python3.7\n")#dilision
 
     def menu():
         print('------------------------------')
         print('  Firmadyne-EX Debugger v1.0')
         print('------------------------------')
         print('1. connect to shell')
-        print('2. tcpdump')
-        print('3. run gdbserver')
-        print('4. file transfer')
-        print('5. exit')
+        print('2. file transfer')
+        print('3. start monitor')
+        print('4. exit')
 
     while 1:
         menu()
         try:
             select = int(input('> '))
         except KeyboardInterrupt:
-            fh.send("mv /lib /dyslib && mv /orglib /lib\n")#dilision
             break
         except:
             select = ''
             pass
-
         if select == 1:
             fh.connect_shell()
         elif select == 2:
-            fh.tcpdump()
-        elif select == 3:
-            fh.show_processlist()
-            try:
-                PID = input('[+] target pid : ')
-            except KeyboardInterrupt:
-                pass
-            else:
-                fh.run_gdbserver(PID)
-        elif select == 4:
             target_filepath = input('[+] target file path : ')
             fh.file_transfer(target_filepath)
-        elif select == 5:
-            fh.send("mv /lib /dyslib && mv /orglib /lib\n")#dilision
+        elif select == 3:
+            fh.send("./firmadyne/Pythoninstall/bin/python3.7 /firmadyne/monitor/process_monitor_unix.py > /firmadyne/monitor/monitor.log\n")
+        elif select == 4:
             break
         else:
             print('error : invaild selection')
