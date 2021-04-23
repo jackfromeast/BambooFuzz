@@ -46,7 +46,7 @@ if [ ! -e "${WORK_DIR}/${IID}.tar.gz" ]; then
 fi
 
 echo "----Creating QEMU Image----"
-qemu-img create -f raw "${IMAGE}" 1G
+qemu-img create -f raw "${IMAGE}" 1.5G
 chmod a+rw "${IMAGE}"
 
 echo "----Creating Partition Table----"
@@ -136,7 +136,7 @@ sync
 umount "${IMAGE_DIR}"
 del_partition ${DEVICE:0:$((${#DEVICE}-2))}
 
-DEVICE=`add_partition ${IMAGE} ${IID}`
+DEVICE=`add_partition ${IMAGE}`
 e2fsck -y ${DEVICE}
 sync
 sleep 1
