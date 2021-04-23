@@ -96,25 +96,17 @@ function run_emulation()
     # ================================
     t_start="$(date -u +%s.%N)"
     # timeout --preserve-status --signal SIGINT 300 \
-    echo "./sources/extractor/extractor.py -b $BRAND -sql $PSQL_IP -np -d  $INFILE images \
-        2>&1 >/dev/null"
-    python3 ./sources/extractor/extractor.py -b $BRAND -sql $PSQL_IP -np -d  $INFILE images
+    python3 ./sources/extractor/extractor.py -b $BRAND -sql $PSQL_IP -np -d  $INFILE images 2>&1 >/dev/null
 
     IID=`./scripts/util.py get_iid $INFILE $PSQL_IP`
     
-    ./clean.sh ${IID} || true
+    ./clean.sh ${IID} 2>&1 >/dev/null || true #一开始阶clean并且防止出错
 
     if [ ! "${IID}" ]; then
         echo -e "[\033[31m-\033[0m] extractor.py failed!"
         return
     fi
 
-    # ================================
-    # extract kernel from firmware
-    # ================================
-    # timeout --preserve-status --signal SIGINT 300 \
-    #     ./sources/extractor/extractor.py -b $BRAND -sql $PSQL_IP -np -nf $INFILE images \
-    #     2>&1 >/dev/null
 
     WORK_DIR=`get_scratch ${IID}`
     mkdir -p ${WORK_DIR}
@@ -271,10 +263,10 @@ function run_emulation()
             ./scratch/$IID/run_debug.sh &
             check_network ${IP} true
             echo "get shell"
-            sleep 1
-            telnet ${IP} 31338
-            # ./debug.py ${IID}
-            ./clean.sh ${IID}
+            # sleep 1
+            # telnet ${IP} 31338
+            ./debug.py ${IID}
+            # ./clean.sh ${IID}
         else
             echo -e "[\033[31m-\033[0m] Network unreachable"
         fi
@@ -287,7 +279,7 @@ function run_emulation()
 
     echo "[*] cleanup"
     echo "======================================"
-
+    ./clean.sh ${IID} 2>&1 >/dev/null || true 
 }
 
 FIRMWARE=${3}
