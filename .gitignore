@@ -2,5 +2,7 @@
 .vscode
 firmae-src/scratch/*
 firmae-src/images/*
+firmae-src/scripts/Pythoninstall/*
+firmae-src/scripts/dyslib/*
 spider/packets/*
 */__pycache__
