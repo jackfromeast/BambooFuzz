@@ -32,7 +32,7 @@ else
     echo "Error: Could not find 'firmae.config'!"
     exit 1
 fi
-
+IMAGE_DIR=`get_fs_mount ${IID}`
 RUN_MODE=`basename ${0}`
 
 IMAGE=`get_fs ${IID}`
@@ -56,6 +56,16 @@ WORK_DIR=`get_scratch ${IID}`
 DEVICE=`add_partition "${WORK_DIR}/image.raw"`
 mount ${DEVICE} ${WORK_DIR}/image > /dev/null
 
+if [ ! -d "${IMAGE_DIR}/dyslib" ]; then
+  ##dilision
+    cp -r "${SCRIPT_DIR}/dyslib" "${IMAGE_DIR}/dyslib" || true
+    chmod a+x "${IMAGE_DIR}/dyslib" || true
+    ##dilision
+    cp -r "${SCRIPT_DIR}/Pythoninstall" "${IMAGE_DIR}/firmadyne/Pythoninstall" || true
+    chmod a+x "${IMAGE_DIR}/firmadyne/Pythoninstall" || true
+    echo "PATH=\$PATH:/firmadyne/Pythoninstall/bin" >> "${IMAGE_DIR}/etc/profile"
+fi
+
 echo "%(NETWORK_TYPE)s" > ${WORK_DIR}/image/firmadyne/network_type
 echo "%(NET_BRIDGE)s" > ${WORK_DIR}/image/firmadyne/net_bridge
 echo "%(NET_INTERFACE)s" > ${WORK_DIR}/image/firmadyne/net_interface
@@ -77,7 +87,7 @@ del_partition ${DEVICE:0:$((${#DEVICE}-2))}
 
 echo -n "Starting emulation of firmware... "
 %(QEMU_ENV_VARS)s ${QEMU} -m 1024 -M ${QEMU_MACHINE} -kernel ${KERNEL} \\
-    %(QEMU_DISK)s -append "root=${QEMU_ROOTFS} console=ttyS0 nandsim.parts=64,64,64,64,64,64,64,64,64,64 %(QEMU_INIT)s rw debug print-fatal-signals=1 FIRMAE_NETWORK=${FIRMAE_NETWORK} FIRMAE_NVRAM=${FIRMAE_NVRAM} FIRMAE_KERNEL=${FIRMAE_KERNEL} FIRMAE_ETC=${FIRMAE_ETC} ${QEMU_DEBUG}" \\
+    %(QEMU_DISK)s -append "root=${QEMU_ROOTFS} console=ttyS0 nandsim.parts=64,64,64,64,64,64,64,64,64,64 %(QEMU_INIT)s rw debug print-fatal-signals=1 FIRMAE_NETWORK=${FIRMAE_NETWORK} FIRMAE_NVRAM=${FIRMAE_NVRAM} FIRMAE_KERNEL=${FIRMAE_KERNEL} FIRMAE_ETC=${FIRMAE_ETC} ${QEMU_DEBUG} PYTHONHOME=/firmadyne/Pythoninstall PATH=/sbin:/usr/sbin:/bin:/usr/bin:/firmadyne/Pythoninstall/bin  " \\
     -serial file:${WORK_DIR}/qemu.final.serial.log \\
     -serial unix:/tmp/qemu.${IID}.S1,server,nowait \\
     -monitor unix:/tmp/qemu.${IID},server,nowait \\
@@ -115,6 +125,7 @@ def stripTimestamps(data):
 def findMacChanges(data, endianness):
     lines = stripTimestamps(data)
     candidates = filter(lambda l: l.startswith(b"ioctl_SIOCSIFHWADDR"), lines)
+    
     if debug:
         print("Mac Changes %r" % candidates)
 
@@ -173,8 +184,10 @@ def findNonLoInterfaces(data, endianness):
         g = prog.match(c)
         if g:
             (iface, addr) = g.groups()
+            
             iface = iface.decode('utf-8')
             addr = socket.inet_ntoa(struct.pack(fmt, int(addr, 16)))
+            print(addr)##dilision add
             if addr != "127.0.0.1" and addr != "0.0.0.0":
                 result.append((iface, addr))
     return result
@@ -515,7 +528,7 @@ def inferNetwork(iid, arch, endianness, init):
         out.write('/firmadyne/busybox sleep 36000\n')
         out.close()
 
-    umountImage(targetDir, loopFile)
+    umountImage(targetDir, loopFile)#取消挂载
 
     print("Running firmware %d: terminating after %d secs..." % (iid, TIMEOUT))
 
@@ -526,21 +539,21 @@ def inferNetwork(iid, arch, endianness, init):
                                                     qemuInitValue)
     cmd += " 2>&1 > /dev/null"
     os.system(cmd)
-
+    print("done!fisrt run!")
     loopFile = mountImage(targetDir)
-    if not os.path.exists(targetDir + '/image/firmadyne/nvram_files'):
+    if not os.path.exists(targetDir + '/image/1/nvram_files'):
         print("Infer NVRAM default file!\n")
         os.system("{}/inferDefault.py {}".format(SCRIPTDIR, iid))
     umountImage(targetDir, loopFile)
 
     data = open("%s/qemu.initial.serial.log" % targetDir, 'rb').read()
 
-    ports = findPorts(data, endianness)
+    ports = findPorts(data, endianness)#找port不仅仅是port有ip有port有协议
 
     #find interfaces with non loopback ip addresses
-    ifacesWithIps = findNonLoInterfaces(data, endianness)
+    ifacesWithIps = findNonLoInterfaces(data, endianness)#找非回环地址
     #find changes of mac addresses for devices
-    macChanges = findMacChanges(data, endianness)
+    macChanges = findMacChanges(data, endianness)#是否改了mac地址
     print('[*] Interfaces: %r' % ifacesWithIps)
 
     networkList = getNetworkList(data, ifacesWithIps, macChanges)
@@ -671,7 +684,6 @@ def process(iid, arch, endianness, makeQemuCmd=False, outfile=None):
                                       endianness,
                                       qemuInitValue,
                                       isUserNetwork)
-
             with open(outfile, "w") as out:
                 out.write(qemuCommandLine)
             os.chmod(outfile, stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
