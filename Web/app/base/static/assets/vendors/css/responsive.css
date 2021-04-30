@@ -1,0 +1,332 @@
+/* ------------ For Tablet Layout: 1024px. ----------- */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+/* ------------- Home Page Style ----------- */
+
+  /* ----------- Menu ----------- */
+  .mzus-main-menu.minified {
+    background-color: #28292e;
+    padding: 20px 0 0;
+    position: fixed;
+  }
+
+  .navbar-header {
+    float: none;
+    text-align: center;
+  }
+
+  .navbar-brand {
+    float: none;
+    font-size: 18px;
+    line-height: 20px;
+    padding: 15px;
+  }
+
+  .navbar-collapse {
+  	text-align: center;
+  }
+
+  .mzus-main-menu .navbar-nav {
+    display: inline-block;
+    float: none;
+  }
+
+  .navbar-nav > li {
+    display: inline-block;
+    float: none;
+    margin-bottom: 5px;
+  }
+
+  /* ------------- Portfolio Style ------------- */
+  .mzus-portfolio-items .mzus-portfolio-item {
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+    width: 33.33331%;
+  }
+
+  /* --------- Team Style -------- */
+  .mzus-team-slides .mzus-member-img-wrapper{
+    width: 35%;
+    margin-right: 5%;
+  }
+
+  .mzus-member-details {
+    display: inline-block;
+    float: left;
+    width: 60%;
+  }
+
+}
+
+
+/* --------- For Tablet Layout: 768px. ---------- */
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+/* ---------- Home Page Style ---------- */
+
+  /* -------- Menu -------*/
+  .mzus-main-menu.minified {
+    background-color: #28292e;
+    padding: 20px 0 0;
+    position: fixed;
+  }
+
+  .navbar-header {
+    float: none;
+    text-align: center;
+  }
+
+  .navbar-brand {
+    float: none;
+    font-size: 18px;
+    line-height: 20px;
+    padding: 15px;
+  }
+
+  .navbar-collapse {
+  	text-align: center;
+  }
+
+  .mzus-main-menu .navbar-nav {
+    display: inline-block;
+    float: none;
+  }
+
+  .navbar-nav > li {
+    display: inline-block;
+    float: none;
+    margin-bottom: 5px;
+  }
+  .mzus-blurb-icon-left-square .mzus-icon {
+    height: 50px;
+    width: 50px;
+    margin-right: 20px;
+  }
+
+  .mzus-blurb-icon-left-square .mzus-blurb-text {
+    float: left;
+    width: 140px;
+  }
+
+  .mzus-blurb-icon-left-square .mzus-icon i {
+    font-size: 24px;
+    line-height: 50px;
+  }
+
+  /* ---------- Team ------------- */
+  .mzus-team-slides .mzus-member-img-wrapper{
+    width: 35%;
+    margin-right: 5%;
+  }
+
+  .mzus-member-details {
+    display: inline-block;
+    float: left;
+    width: 60%;
+  }
+  .mzus-skills-wrapper{
+  	padding-bottom: 30px;
+  }
+
+  .mzus-skill-item{
+  	margin-bottom: 50px;
+  }
+
+
+  /* ----------- Portfolio ------- */
+  .mzus-portfolio-items .mzus-portfolio-item {
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+    width: 33.33331%;
+  }
+}
+/* ----- For Mobile Layout: 320px. ------- */
+
+@media only screen and (max-width: 767px) {
+
+/*---------- Home Page style --------*/
+  .mzus-section-header {
+    margin-bottom: 60px;
+    text-align: center;
+  }
+  .navbar-toggle {
+    border: 1px solid #fff;
+  }
+
+  .navbar-toggle .icon-bar {
+    border-radius: 1px;
+    display: block;
+    height: 2px;
+    width: 22px;
+    background-color: #fff;
+  }
+
+  .navbar-collapse {
+    border-top: 0px solid transparent;
+    box-shadow: 0 0px 0 rgba(255, 255, 255, 0) inset;
+}
+
+  .mzus-main-menu .navbar-nav {
+    float: none;
+    background-color: #28292e;
+    padding: 10px 0;
+  }
+
+  .mzus-main-menu .navbar-nav li {
+    margin-bottom: 10px;
+  }
+
+  .mzus-main-menu .navbar-nav li:last-child{
+  	margin-bottom: 0;
+  }
+  .mzus-blurb-icon-only {
+    margin-bottom: 50px;
+  }
+
+  .mzus-blurb-icon-only:last-child{
+  	margin-bottom: 0;
+  }
+  .mzus-blurb-icon-left-square .mzus-blurb-text {
+    float: left;
+    width: 61%;
+  }
+.mzus-blurb-round-icon {
+  margin-bottom: 50px;
+  }
+
+.mzus-blurb-round-icon:last-child{
+  margin-bottom: 0;
+ }
+
+  .mzus-process-item {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .mzus-process-item:last-child{
+  	margin-bottom: 0;
+  }
+  .mzus-cta-1 h2 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .mzus-cta-1 p{
+  	text-align: center;
+  	margin-bottom: 20px;
+  }
+
+  .mzus-cta-1 .mzus-cta-btn{
+  	text-align: center;
+  }
+
+  .mzus-cta-1 .mzus-cta-btn a{
+  	float: none;
+  }
+
+  /* ------ Home Page Slider --------- */
+.mzus-main-slides h1.mzus-slider-text-big {
+  color: #ffffff;
+  font-size: 24px;
+  margin-bottom: 25px;
+  margin-top: 0;
+  text-transform: uppercase;
+  white-space: normal !important;
+  text-align: center;
+  width: 100% !important;
+ }
+
+.mzus-main-slides p {
+  color: #ffffff;
+  font-family: "Raleway",sans-serif;
+  font-size: 18px !important;
+  font-weight: 400;
+  margin-bottom: 0;
+  white-space: normal !important;
+  text-align: center;
+  margin-top: 20px;
+  width: 100% !important;
+ }
+
+
+  /* ---------- Team Slider -------- */
+  .mzus-team-slides .mzus-member-img-wrapper {
+    float: none;
+    height: auto;
+    width: 100%;
+  }
+
+  .mzus-member-details {
+    float: none;
+    width: 100%;
+    text-align: center;
+  }
+
+  .mzus-member-details ul {
+  	display: inline-block;
+  }
+
+  /* ---------- Skill --------- */
+  .mzus-skill-item{
+  	margin-bottom: 50px;
+  }
+
+  .mzus-skill-item:last-child{
+  	margin-bottom: 0;
+  }
+
+
+  /* --------- Counter ---------- */
+  .mzus-counter-item {
+    margin-bottom: 50px;
+  }
+
+  .mzus-counter-item:last-child{
+  	margin-bottom: 0;
+  }
+
+
+  /* --------- Portfolio ---------- */
+  .mzus-portfolio-items .mzus-portfolio-item {
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+  .mzus-service-wrapper > div{
+    margin-bottom: 50px;
+  }
+
+  /* --------- Testimonials --------- */
+  .mzus-bg-video-wrapper video {
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+  }
+
+  /* ---------- Contact Form ----------- */
+  .mzus-contact-section .mzus-contact-address {
+    margin-bottom: 50px;
+  }
+
+
+}
+
+
+/* Wide Mobile Layout: 480px. */
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+/* ------- Home Page ------ */
+  /* ---------- Portfolio --------- */
+  .mzus-portfolio-items .mzus-portfolio-item {
+    width: 50%;
+  }
+
+}

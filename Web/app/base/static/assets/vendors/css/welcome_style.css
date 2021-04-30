@@ -1,0 +1,984 @@
+/* ----Start Stylesheet---- */
+
+
+/* ---- General Style---- */
+
+body {
+    position: relative;
+}
+
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+ul {
+    padding: 0;
+    list-style: none;
+    margin-bottom: 0;
+}
+
+header.blete-page-header {
+    -webkit-background-size: cover;
+    height: 330px;
+    background-size: cover;
+    position: relative;
+}
+
+.bgc-one {
+    background-color: #FFF;
+}
+
+.bgc-two {
+    background-color: #e4f1fe;
+}
+
+.por {
+    padding: 0 60px 60px;
+}
+
+.copyrights {
+    text-indent: -9999px;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+    overflow: hidden;
+}
+
+
+/* ------ Typography Style----- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+}
+
+h1 {
+    font-size: 36px;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+h3 {
+    font-size: 24px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+h5 {
+    font-size: 16px;
+}
+
+h5 {
+    font-size: 14px;
+}
+
+a,
+p,
+li,
+input,
+textarea {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+
+a:hover,
+a:focus,
+a:active {
+    outline: 0;
+    text-decoration: none;
+    border: 0;
+}
+
+.blete-page-title h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    padding: 70px 0 0;
+    text-align: center;
+}
+
+
+/* ----- Button Style------*/
+
+.blete-button-solid {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px 30px;
+    display: inline-block;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    -ms-transition: all .35s;
+    -o-transition: all .35s;
+    transition: all .35s;
+}
+
+.blete-button-solid:hover {
+    color: #ffffff;
+}
+
+.blete-button-outline {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px 30px;
+    display: inline-block;
+    background-color: transparent;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    -ms-transition: all .35s;
+    -o-transition: all .35s;
+    transition: all .35s;
+}
+
+.blete-button-outline-round {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    padding: 15px 30px;
+    display: inline-block;
+    background-color: transparent;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    -ms-transition: all .35s;
+    -o-transition: all .35s;
+    transition: all .35s;
+}
+
+.blete-button-outline-light {
+    border: 1px solid #ffffff;
+}
+
+.blete-button-outline-light:hover {
+    color: #ffffff;
+    border: 1px solid transparent;
+}
+
+.blete-button-outline-round-light {
+    border: 1px solid #ffffff;
+}
+
+.blete-button-outline-round-light:hover {
+    color: #ffffff;
+    border: 1px solid transparent;
+}
+
+.blete-button-outline-dark {
+    color: #28292e;
+    border: 1px solid #28292e;
+}
+
+.blete-button-outline-dark:hover {
+    color: #ffffff;
+    border: 1px solid transparent;
+}
+
+.blete-button-outline-round-dark {
+    color: #28292e;
+    border: 1px solid #28292e;
+}
+
+.blete-button-outline-round-dark:hover {
+    color: #ffffff;
+    border: 1px solid transparent;
+}
+
+.blete-btn-round {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 15px 30px;
+    color: #ffffff;
+    text-align: left;
+    display: inline-block;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    -ms-transition: all .35s;
+    -o-transition: all .35s;
+    transition: all .35s;
+}
+
+.blete-btn-round:hover {
+    color: #ffffff;
+}
+
+.header-img img {
+    height: 350px;
+    width: 100%;
+    background-size: 100%;
+}
+
+
+/* ----- Icon Style ----- */
+
+.blete-blurb-icon-only {
+    margin-bottom: 50px;
+}
+
+.blete-blurb-icon-only i {
+    font-size: 30px;
+}
+
+.blete-blurb-icon-only h3 {
+    font-size: 16px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.blete-blurb-icon-only p {
+    margin-bottom: 0;
+}
+
+.blete-blurb-round-icon .blete-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 30px;
+    border: 1px solid #dadada;
+    -webkit-border-radius: 50%;
+    moz-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.blete-blurb-round-icon .blete-icon i {
+    line-height: 100px;
+    font-size: 36px;
+    color: #dadada;
+}
+
+.blete-blurb-round-icon .blete-icon {
+    -webkit-transition: all .35s linear;
+    -moz-transition: all .35s linear;
+    -ms-transition: all .35s linear;
+    -o-transition: all .35s linear;
+    transition: all .35s linear;
+}
+
+.blete-blurb-round-icon:hover .blete-icon {
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.blete-blurb-round-icon:hover .blete-icon i {
+    color: #ffffff;
+}
+
+.blete-blurb-round-icon h3 {
+    text-align: center;
+    font-size: 18px;
+    color: #616161;
+    margin-top: 0;
+    margin-bottom: 15px;
+    -webkit-transition: all .3s linear;
+    -moz-transition: all .3s linear;
+    -ms-transition: all .3s linear;
+    -o-transition: all .3s linear;
+    transition: all .3s linear;
+}
+
+.blete-blurb-round-icon p {
+    margin-bottom: 0;
+    text-align: center;
+}
+
+
+/* ---- icon Square ------ */
+
+.blete-blurb-icon-left-square {
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+.blete-blurb-icon-left-square .blete-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+    text-align: center;
+    float: left;
+    margin-right: 30px;
+    background-color: #444;
+    border-radius: 50px;
+}
+
+.blete-blurb-icon-left-square.blete-square-dark .blete-icon {
+    background-color: #444;
+}
+
+.blete-blurb-icon-left-square .blete-icon i {
+    line-height: 70px;
+    color: #ffffff;
+    font-size: 36px;
+}
+
+.blete-blurb-icon-left-square .blete-blurb-text {
+    float: left;
+    width: 260px;
+}
+
+.blete-blurb-icon-left-square .blete-blurb-text h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    position: relative;
+    -webkit-transition: all .3s linear;
+    -moz-transition: all .3s linear;
+    -ms-transition: all .3s linear;
+    -o-transition: all .3s linear;
+    transition: all .3s linear;
+}
+
+.blete-blurb-icon-left-square .blete-blurb-text h3:after {
+    content: '';
+    width: 50px;
+    height: 2px;
+    background-color: #dadada;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    -webkit-transition: all .3s linear;
+    -moz-transition: all .3s linear;
+    -ms-transition: all .3s linear;
+    -o-transition: all .3s linear;
+    transition: all .3s linear;
+}
+
+.blete-blurb-icon-left-square .blete-blurb-text p {}
+
+
+/* ------ Section Header Style ------ */
+
+.blete-section-wrapper {
+    padding: 120px 0;
+    overflow: hidden;
+}
+
+.blete-section-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.blete-section-header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: #313131;
+}
+
+.blete-section-header h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: #313131;
+}
+
+.blete-section-header h1 span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.blete-section-header .blete-section-divider {
+    width: 100px;
+    height: 2px;
+    margin: 20px auto;
+    background-color: #dadada;
+}
+
+.blete-section-header p {
+    font-family: 'Raleway', sans-serif;
+}
+
+
+/* #about {
+    background-color: rgb(163, 233, 23);
+} */
+
+
+/* ------ Parallax Section Style-----*/
+
+#skill {
+    /* background-color: rgb(191, 233, 106); */
+    /* background-image: "; */
+    background: rgb(131, 177, 41);
+    /* background:#34d8ed */
+    /* background: -moz-linear-gradient(top, #ffffff 0%, rgb(191, 233, 106) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(191, 233, 106)), color-stop(100%, #ffffff));
+    background: -webkit-linear-gradient(top, #ffffff 0%, rgb(191, 233, 106) 100%);
+    background: -o-linear-gradient(top, #ffffff 0%, rgb(191, 233, 106) 100%);
+    background: -ms-linear-gradient(top, #ffffff 0%, rgb(191, 233, 106) 100%;
+    background: linear-gradient(to bottom, #ffffff 0%, rgb(191, 233, 106) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#ffffff', GradientType=0); */
+}
+
+
+/* #features {
+    background-color: rgb(177, 196, 140);
+}*/
+
+#contact {
+    background-color: #28292e2d;
+    /* background-image: "; */
+}
+
+.blete-parallax-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.blete-section-header-parallax h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: #ffffff;
+}
+
+.blete-section-header-parallax h1 span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.blete-section-header-parallax .blete-section-divider {
+    width: 100px;
+    height: 2px;
+    margin: 20px auto;
+    background-color: #dadada;
+}
+
+.blete-section-header-parallax p {
+    font-family: 'Raleway', sans-serif;
+}
+
+
+/* ----- Call To Action ------ */
+
+.blete-cta-1 {
+    background-color: #28292e;
+    padding: 60px 0;
+}
+
+.blete-cta-1 h2 {
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.blete-cta-1 p {
+    color: #ffffff;
+    margin-bottom: 0;
+}
+
+.blete-cta-1 .blete-cta-btn a {
+    float: right;
+    margin-top: 15px;
+    color: #ffffff;
+}
+
+.blete-cta-2 {
+    background-color: #28292e;
+    text-align: center;
+}
+
+.blete-cta-2-wrapper {
+    overflow: hidden;
+    padding: 60px 0;
+}
+
+.blete-cta-2 h1 {
+    font-size: 24px;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 30px;
+    color: #ffffff;
+}
+
+
+/* ----- Menus Style ---- */
+
+.blete-main-menu {
+    background-color: #2C353D;
+    background-color: transparent;
+    border: 0 none;
+    border-radius: 0;
+    position: fixed;
+    width: 100%;
+    padding: 10px 0 20px !important;
+    margin-bottom: 0;
+    z-index: 10;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    -ms-transition: all .35s;
+    -o-transition: all .35s;
+    transition: all .35s;
+    -webkit-backface-visibility: hidden;
+}
+
+header.blete-page-header .blete-main-menu {
+    position: relative;
+}
+
+.blete-main-menu .navbar-nav {
+    float: right;
+    padding: 20px 0;
+}
+
+.blete-main-menu .navbar-nav li a {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    /* color: #333; */
+    color: rgba(245, 245, 245, 0.664);
+    padding-top: 6px;
+    padding-bottom: 0;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+
+.blete-main-menu .navbar-nav li a:hover,
+.blete-main-menu .navbar-nav li.active a {
+    background-color: transparent;
+}
+
+.blete-main-menu .navbar-nav li a:focus {
+    background-color: transparent;
+}
+
+
+/* ------ Minified Menu ------ */
+
+.blete-main-menu.minified {
+    background-color: #ffffff;
+    padding: 0;
+    position: fixed;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.43);
+}
+
+header.blete-page-header .blete-main-menu.minified {
+    position: fixed;
+}
+
+
+/* ----- Slider Style ------ */
+
+.blete-slider {
+    overflow: hidden;
+    background-color: #28292e;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.43);
+}
+
+.blete-main-slides .blete-img-overlay {
+    position: absolute;
+    background: url(/static/assets/images/welcome/pattern.png)repeat, rgba(40, 41, 46, 0.25);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.blete-main-slides h1.blete-slider-text-big {
+    font-size: 48px;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.blete-main-slides .blete-slider-text h1 span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+
+.blete-main-slides p {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 30px !important;
+    color: #ffffff;
+    margin-bottom: 0;
+}
+
+.sp-arrow {
+    width: 10px;
+}
+
+.blete-slider .sp-buttons {
+    padding-top: 10px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    bottom: 20px;
+}
+
+.blete-slider .sp-button {
+    border: 1px solid #fff;
+    border-radius: 50%;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    height: 16px;
+    margin: 4px;
+    width: 16px;
+}
+
+
+/* ----- Features Style ------- */
+
+.blete-features-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ----- Skill Style ----- */
+
+.blete-our-skills {}
+
+.blete-our-skills .chart {
+    position: relative;
+    text-align: center;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 15px;
+}
+
+.blete-our-skills span.percent {
+    font-size: 36px;
+    font-weight: 700;
+    color: #3a3a3a;
+    display: inline-block;
+    z-index: 3;
+    margin-top: 60px;
+}
+
+.blete-our-skills span.percent:after {
+    content: '%';
+    font-size: 36px;
+}
+
+.blete-our-skills .chart h3 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #3a3a3a;
+    display: block;
+    z-index: 3;
+    margin-top: 0px;
+    margin-bottom: 0;
+}
+
+.blete-our-skills .chart canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.blete-our-skills .blete-skills-wrapper p {
+    text-align: center;
+}
+
+
+/* ------ Featured Work Style ------- */
+
+.blete-section-work {
+    background-color: #D3D7D7
+}
+
+.blete-portfolio-work-item {
+    height: 280px;
+    position: relative;
+}
+
+
+/* -------- Contact Style ------- */
+
+.blete-contact-section h2 {}
+
+.blete-contact-section .blete-contact-address p {
+    margin-bottom: 25px;
+}
+
+.blete-contact-section .blete-contact-address ul li {
+    padding-left: 40px;
+    margin-bottom: 25px;
+    font-size: 14px;
+    position: relative;
+}
+
+.blete-contact-section .blete-contact-address ul li:last-child {
+    margin-bottom: 0;
+}
+
+.blete-contact-section .blete-contact-address ul li i {
+    color: #ffffff;
+    position: absolute;
+    font-size: 18px;
+    left: 0;
+    top: 3px;
+    padding: 5px;
+    width: 30px;
+    text-align: center;
+    height: 30px;
+    border-radius: 50px;
+}
+
+.blete-contact-section .blete-contact-form .blete-input-fields {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.blete-contact-section .blete-contact-form .blete-input-fields label {
+    display: block;
+    font-size: 14px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.blete-contact-section .blete-contact-form .blete-input-fields input {
+    width: 100%;
+    height: 60px;
+    background-color: transparent;
+    border: 3px solid #ccc !important;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #333;
+    border: none;
+}
+
+.blete-contact-section .blete-contact-form .blete-input-fields textarea {
+    width: 100%;
+    background-color: transparent;
+    border: 3px solid #ccc !important;
+    padding: 15px;
+    color: #333;
+    border: none;
+}
+
+.blete-contact-section .blete-contact-form input[type='submit'] {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    padding: 15px 30px;
+    text-align: center;
+    display: inline-block;
+    outline: 0;
+    border: 0px solid;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    -ms-transition: all .35s;
+    -o-transition: all .35s;
+    transition: all .35s;
+}
+
+.blete-contact-section .blete-contact-form .blete-input-fields input[type='submit']:hover {
+    color: #ffffff;
+    background-color: #de5c39;
+}
+
+
+/* -------- Preloader Style ------- */
+
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fefefe;
+    z-index: 999999;
+    height: 100%;
+    width: 100%;
+    overflow: hidden !important;
+}
+
+.status {
+    width: 128px;
+    height: 128px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-image: url(/static/assets/images/welcome/preloader.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    margin: -70px 0 0 -70px;
+}
+
+
+/* -------- Slider Pagination ------- */
+
+.owl-theme .owl-controls {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.owl-theme .owl-controls .owl-page span {
+    background-color: transparent;
+    border-radius: 50px;
+    display: block;
+    height: 10px;
+    margin: 5px 5px;
+    opacity: 1;
+    width: 10px;
+}
+
+.owl-theme .owl-controls .owl-page.active span {
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+
+/* --------- Footer Style ---------- */
+
+footer {
+    background-color: #151515;
+    padding: 60px 15px;
+    overflow: hidden;
+    color: #f5f5f5 !important;
+}
+
+footer .blete-footer-content {
+    text-align: center;
+}
+
+footer .blete-footer-logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+footer p {
+    text-align: center;
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+footer ul {
+    display: inline-block;
+}
+
+footer ul li {
+    margin-right: 15px;
+}
+
+footer ul li:last-child {
+    margin-right: 0;
+}
+
+footer ul li a {
+    color: #f3f3f3;
+}
+
+footer ul li a:hover {
+    color: #f3f3f3;
+    opacity: 0.4;
+}
+
+footer ul li a i {
+    font-size: 21px;
+    color: #818181;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+
+.thn {
+    background-color: #111111;
+    text-align: center;
+    padding: 10px;
+    color: #aaa;
+}
+
+.blete-footer-social-info li {
+    width: 50px;
+    height: 50px;
+    margin: 0px 15px 0px auto;
+    text-align: center;
+    float: left;
+    background-color: rgba(255, 255, 255, 0.25);
+    border-radius: 50px;
+    padding: 10px;
+}
+
+
+/* --------- Parallax Section ----------- */
+
+.blete-features-section {
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    background-size: cover;
+    position: relative;
+    padding-bottom: 30px;
+    overflow: hidden;
+}
+
+.blete-contact-section {
+    -webkit-background-size: cover;
+    background-size: cover;
+    position: relative;
+    padding: 80px 0;
+    overflow: hidden;
+}

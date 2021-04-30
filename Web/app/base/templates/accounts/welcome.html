@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Title -->
+    <title>Welcome</title>
+
+    <!-- Favicon Ico -->
+    <link rel="shortcut icon" href="/static/assets/images/favicon.ico">
+
+    <!-- =============================
+                stylesheets
+    ================================== -->
+
+    <!-- Normalize And Bootstrap -->
+    <link rel="stylesheet" href="/static/assets/vendors/css/normalize.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/bootstrap.min.css">
+
+    <!-- Google Font  -->
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:600,700,400,300' rel='stylesheet' type='text/css'>
+
+    <!-- Font Icons -->
+    <link rel="stylesheet" href="/static/assets/vendors/css/font-awesome.min.css" />
+
+    <!-- Plugin Default Stylesheets -->
+    <link rel="stylesheet" href="/static/assets/vendors/css/magnific-popup.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/slider-pro.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/owl.carousel.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/owl.theme.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/owl.transitions.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/animate.css">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/static/assets/vendors/css/welcome_style.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/responsive.css" />
+    <link rel="stylesheet" href="/static/assets/vendors/css/color.css" id="colors" />
+
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.min.js"></script>
+        <script src="js/respond.min.js"></script>
+        <script type="text/javascript" src="js/selectivizr.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="status"></div>
+    </div>
+
+    <!-- =============================
+                    Header
+    ================================== -->
+    <header>
+        <!-- Navigation Menu start-->
+        <nav class="navbar blete-main-menu" role="navigation">
+            <div class="container">
+
+                <!-- Navbar Toggle -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Logo -->
+                    <a class="navbar-brand" href="welcome.html"><img class="logo" id="logo" src="/static/assets/images/welcome/logo.png" alt="logo"></a>
+
+                </div>
+                <!-- Navbar Toggle End -->
+
+                <!-- navbar-collapse start-->
+                <div id="nav-menu" class="navbar-collapse collapse" role="navigation">
+                    <ul class="nav navbar-nav blete-menu-wrapper">
+                        <li class="active">
+                            <a href="welcome.html">主页</a>
+                        </li>
+                        <li>
+                            <a href="#about">服务介绍</a>
+                        </li>
+                        <li>
+                            <a href="#skill">支持品牌</a>
+                        </li>
+                        <li>
+                            <a href="#features">项目特色</a>
+                        </li>
+                        <li>
+                            <a href="#contact">联系我们</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- navbar-collapse end-->
+
+            </div>
+        </nav>
+
+        <!-- Navigation Menu end-->
+    </header>
+    <!-- Header End -->
+
+
+    <!-- =============================
+                Main Slider
+    ================================== -->
+    <section class="slider-pro blete-slider" id="blete-slider">
+        <div class="sp-slides">
+
+            <!-- Slides -->
+            <div class="sp-slide blete-main-slides">
+                <div class="blete-img-overlay"></div>
+
+                <img class="sp-image" src="/static/assets/images/welcome/slider-img-1.jpg" alt="Slider 1" />
+
+                <h1 class="sp-layer blete-slider-text-big" data-position="center" data-show-transition="left" data-hide-transition="right" data-show-delay="1500" data-hide-delay="200">
+                    BambooFuzz
+                </h1>
+
+                <p class="sp-layer" data-position="center" data-vertical="15%" data-show-delay="2000" data-hide-delay="200" data-show-transition="left" data-hide-transition="right">
+                    <span class="blete-highlight-text"><a href="{{ url_for('base_blueprint.login') }}">创建</a></span> 第一个固件分析项目
+                </p>
+            </div>
+            <!-- Slides End -->
+
+            <!-- Slides -->
+            <div class="sp-slide blete-main-slides">
+                <div class="blete-img-overlay"></div>
+                <img class="sp-image" src="/static/assets/images/welcome/slider-img-2.jpg" alt="Slider 2" />
+
+                <h1 class="sp-layer blete-slider-text-big" data-position="center" data-show-transition="left" data-hide-transition="right" data-show-delay="1500" data-hide-delay="200">
+                    BambooFuzz
+                </h1>
+
+                <p class="sp-layer" data-position="center" data-vertical="15%" data-show-delay="2000" data-hide-delay="200" data-show-transition="left" data-hide-transition="right">
+                    <span class="blete-highlight-text"><a href="{{ url_for('base_blueprint.login') }}">创建</a></span>第一个固件分析项目
+                </p>
+            </div>
+            <!-- Slides End -->
+
+            <!-- Slides -->
+            <div class="sp-slide blete-main-slides">
+                <div class="blete-img-overlay"></div>
+
+                <img class="sp-image" src="/static/assets/images/welcome/slider-img-3.jpg" alt="Slider 3" />
+
+                <h1 class="sp-layer blete-slider-text-big" data-position="center" data-show-transition="left" data-hide-transition="right" data-show-delay="1000" data-hide-delay="200">
+                    BambooFuzz
+                </h1>
+
+                <p class="sp-layer" data-position="center" data-vertical="15%" data-show-delay="2000" data-hide-delay="200" data-show-transition="left" data-hide-transition="right">
+                    <span class="blete-highlight-text"><a href="{{ url_for('base_blueprint.login') }}">创建</a></span> 第一个固件分析项目
+                </p>
+
+            </div>
+            <!-- Slides End -->
+
+        </div>
+    </section>
+    <!-- Main Slider End -->
+
+    <!-- =============================
+                    About Section
+    ================================== -->
+    <section id="about" class="blete-section-wrapper" name="about">
+        <div class="container">
+            <div class="row">
+
+                <!-- Section Header -->
+                <div class="col-md-12 col-sm-12 col-xs-12 blete-section-header wow fadeInDown">
+                    <h2><span class="blete-highlight-text">服务</span>介绍</h2>
+                    <div class="blete-section-divider"></div>
+                    <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">介绍BambooFuzz提供的主要服务
+                    </p>
+                </div>
+                <!-- Section Header End -->
+
+                <!-- What We Do -->
+                <div class="blete-what-we-do">
+
+                    <div class="col-md-3 col-sm-3 col-xs-12 blete-blurb-round-icon wow bounceInLeft">
+                        <div class="blete-icon">
+                            <i class="fa fa-key"></i>
+                        </div>
+                        <h3>可交互平台</h3>
+                        <p>提供给用户与服务器交互的权限</p>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-12 blete-blurb-round-icon wow bounceInLeft" data-wow-delay=".5s">
+                        <div class="blete-icon">
+                            <i class="fa fa-laptop"></i>
+                        </div>
+                        <h3>固件动态仿真</h3>
+                        <p>为用户提供方便的动态仿真服务</p>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-12 blete-blurb-round-icon wow bounceInRight" data-wow-delay=".5s">
+                        <div class="blete-icon">
+                            <i class="fa fa-search"></i>
+                        </div>
+                        <h3>固件静态分析</h3>
+                        <p>提供快捷的固件静态分析</p>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-12 blete-blurb-round-icon wow bounceInRight" data-wow-delay=".5s">
+                        <div class="blete-icon">
+                            <i class="fa fa-html5"></i>
+                        </div>
+                        <h3>注入点全面扫描</h3>
+                        <p>利用自动化测试全面扫描可能有的注入点并提供分析结果</p>
+                    </div>
+
+                </div>
+                <!-- What We Do End -->
+
+            </div>
+        </div>
+    </section>
+    <!-- About Section End -->
+
+    <!-- =============================
+                    Skill Section
+    ================================== -->
+    <section id="skill" class="blete-our-skills blete-section-wrapper" name="skill">
+        <div class="container">
+            <div class="row">
+
+                <!-- Section Header -->
+                <div class="col-md-12 col-sm-12 col-xs-12 blete-section-header wow fadeInDown">
+                    <h2>支持<span class="blete-highlight-text">品牌</span></h2>
+                    <div class="blete-section-divider"></div>
+                    <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">目前我们已成功测试大量常用品牌的固件</p>
+                </div>
+                <!-- Section Header End -->
+
+                <!-- Skills -->
+                <div class="blete-skills-wrapper">
+
+                    <div class="col-md-3 col-sm-6 col-xs-12 blete-skill-item">
+                        <div class="chart chart-ps" data-percent="95">
+                            <span class="percent"></span>
+                            <h3>D-Link</h3>
+                        </div>
+                        <p>DIR-822、DIR-525、DIR-859、DIR-850...</p>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-12 blete-skill-item">
+                        <div class="chart chart-php" data-percent="90">
+                            <span class="percent"></span>
+                            <h3>TP-Link</h3>
+                        </div>
+                        <p>TPLink-wr940nv5_eu_3_17_1...</p>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-12 blete-skill-item">
+                        <div class="chart chart-js" data-percent="80">
+                            <span class="percent"></span>
+                            <h3>Netgear</h3>
+                        </div>
+                        <p>Netgear-R9000...</p>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-12 blete-skill-item">
+                        <div class="chart chart-wp" data-percent="80">
+                            <span class="percent"></span>
+                            <h3>Tenda</h3>
+                        </div>
+                        <p>Tenda-AC15-V15.03.1.16...</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 blete-skill-item">
+                        <div class="chart chart-php" data-percent="90">
+                            <span class="percent"></span>
+                            <h3>TrendNet</h3>
+                        </div>
+                        <p>TrendNet-TEW-654-TRA1_FW110B26...</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 blete-skill-item">
+                        <div class="chart chart-php" data-percent="90">
+                            <span class="percent"></span>
+                            <h3>Cisco</h3>
+                        </div>
+                        <p>Cisco-RV110W-V1.2.2.5...</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 blete-skill-item">
+                        <div class="chart chart-php" data-percent="90">
+                            <span class="percent"></span>
+                            <h3>Belkin</h3>
+                        </div>
+                        <p>TPLink-wr940nv5_eu_3_17_1...</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 blete-skill-item">
+                        <div class="chart chart-php" data-percent="0">
+                            <span class="percent"></span>
+                            <h3>More</h3>
+                        </div>
+                        <p>...</p>
+                    </div>
+
+                </div>
+                <!-- Skills End -->
+            </div>
+        </div>
+    </section>
+    <!-- Skill seciton End -->
+
+    <!-- =============================
+                    Featuers Section
+    ================================== -->
+    <section id="features" class="blete-section-wrapper blete-features-section" data-stellar-background-ratio="0.5" name="features">
+        <div class="blete-parallax-overlay"></div>
+        <div class="container">
+            <div class="row">
+
+                <!-- Section Header -->
+                <div class="col-md-12 col-sm-12 col-xs-12 blete-section-header blete-section-header-parallax wow slideInDown">
+                    <h2>项目<span class="blete-highlight-text">特色</span></h2>
+                    <div class="blete-section-divider"></div>
+                    <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">交互平台模块、固件动态仿真模块、仲裁仿真模块、注入点扫描分析模块、模糊测试模块、监测模块</p>
+                </div>
+                <!-- Section Header End -->
+
+                <!-- Features -->
+                <div class="blete-features">
+                    <div class="col-md-4 col-sm-4 col-xs-12 wow rotateInDownLeft">
+
+                        <div class="blete-blurb-icon-left-square">
+                            <div class="blete-icon">
+                                <i class="fa fa-plus"></i>
+                            </div>
+
+                            <div class="blete-blurb-text">
+                                <h3>漏洞挖掘</h3>
+                                <p>从物联网固件可达攻击面出发，实现了BambooFuzz物联网动态漏洞挖掘系统</p>
+                            </div>
+                        </div>
+
+                        <div class="blete-blurb-icon-left-square">
+                            <div class="blete-icon">
+                                <i class="fa fa-laptop"></i>
+                            </div>
+
+                            <div class="blete-blurb-text">
+                                <h3>仿真模拟</h3>
+                                <p>基于虚拟化技术和仲裁机制实现了多架构，高兼容的IOT固件仿真模拟方案</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12 wow slideInUp" data-wow-duration="1s">
+                        <div class="blete-blurb-icon-left-square">
+                            <div class="blete-icon">
+                                <i class="fa fa-file-code-o"></i>
+                            </div>
+
+                            <div class="blete-blurb-text">
+                                <h3>容器管理</h3>
+                                <p>基于Docker框架完善系统的可移植性和并行性，实现容器集群生命周期管理机制</p>
+                            </div>
+                        </div>
+
+                        <div class="blete-blurb-icon-left-square">
+                            <div class="blete-icon">
+                                <i class="fa fa-font"></i>
+                            </div>
+
+                            <div class="blete-blurb-text">
+                                <h3>Web 交互</h3>
+                                <p>Web开发了一个直观、友好、易用、可视化程度高的 Web 交互平台.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12 wow rotateInDownRight">
+
+                        <div class="blete-blurb-icon-left-square">
+                            <div class="blete-icon">
+                                <i class="fa fa-laptop"></i>
+                            </div>
+
+                            <div class="blete-blurb-text">
+                                <h3>变异算法</h3>
+                                <p>设计更智能的 case 生成算法以及更细致的crash check技术</p>
+                            </div>
+                        </div>
+
+                        <div class="blete-blurb-icon-left-square">
+                            <div class="blete-icon">
+                                <i class="fa fa-comments"></i>
+                            </div>
+
+                            <div class="blete-blurb-text">
+                                <h3>有待开发</h3>
+                                <p>...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Features End -->
+
+            </div>
+        </div>
+    </section>
+    <!-- Featuers Section End -->
+
+    <!-- =============================
+                Contact Section
+    ================================== -->
+    <section id="contact" class="blete-section-wrapper blete-contact-section" data-stellar-background-ratio="0.5" name="contact">
+        <div class="blete-parallax-overlay"></div>
+        <div class="container">
+            <div class="row">
+
+                <!-- Section Header -->
+                <div class="col-md-12 col-sm-12 col-xs-12 blete-section-header wow fadeInDown blete-section-header-parallax">
+                    <h2>联系<span class="blete-highlight-text">我们</span></h2>
+                    <div class="blete-section-divider"></div>
+                    <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">如果您有任何问题，请和我们联系</p>
+                </div>
+                <!-- Section Header End -->
+
+                <div class="blete-contact-details">
+
+                    <!-- Address Area -->
+                    <div class="col-md-5 col-sm-4 col-xs-12 blete-contact-address wow bounceInLeft">
+                        <p>这是我们的联系信息</p>
+                        <ul>
+                            <li class="blete-office-address"><i class="fa fa-home"></i>四川省成都市<br>四川大学<br>江安校区</li>
+                            <li class="blete-phone"><i class="fa fa-phone"></i>404-404-404</li>
+                            <li class="blete-email"><i class="fa fa-envelope-o"></i>123456@qq.com</li>
+                            <li class="blete-web"><i class="fa  fa-globe"></i>www.scu.edu.cn/</li>
+                        </ul>
+                    </div>
+
+                    <!-- Address Area End -->
+
+                    <!-- Contact Form -->
+                    <div class="col-md-7 col-sm-8 col-xs-12 blete-contact-form wow bounceInRight">
+                        <div id="contact-result"></div>
+                        <div id="contact-form">
+                            <div class="blete-input-name blete-input-fields">
+                                <input type="text" name="name" id="name" placeholder="Name">
+                            </div>
+
+                            <div class="blete-input-email blete-input-fields">
+                                <input type="email" name="email" id="email" placeholder="Email">
+                            </div>
+
+                            <div class="blete-input-message blete-input-fields">
+                                <textarea name="message" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+                            </div>
+
+                            <input type="submit" value="SEND MESSAGE" id="submit-btn">
+                        </div>
+                    </div>
+                    <!-- Contact Form End -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section End -->
+
+
+    <!-- =============================
+                Footer Section
+    ================================= -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h3>About</h3>
+                    <ul>
+                        <li><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum vitae nihil, culpa nemo dolore explicabo ipsa? Qui, et, porro. Nemo officiis possimus assumenda quia reiciendis asperiores aliquam quae minima, eos.</span></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h3>Related Post</h3>
+                    <ul>
+                        <li><a href="">lorem ipsum</a></li>
+                        <li><a href="">lorem</a></li>
+                        <li><a href="">lorem dolor</a></li>
+                        <li><a href="">lorem</a></li>
+                        <li><a href="">lorem</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h3>Page</h3>
+                    <ul>
+                        <li><a href="">lorem</a></li>
+                        <li><a href="">lorem sit eta</a></li>
+                        <li><a href="">lorem</a></li>
+                        <li><a href="">lorem lorem ipsum</a></li>
+                        <li><a href="">lorem ipsumlor</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h3>Featured Post</h3>
+                    <ul>
+                        <li><a href="">lorem meta tag</a></li>
+                        <li><a href="">lorem intan sipsum</a></li>
+                        <li><a href="">lorem ipsum</a></li>
+                        <li><a href="">lorem</a></li>
+                        <li><a href="">lorem mata</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <!-- Footer End -->
+    <div class="thn">
+        <div class="container thn">
+            <div class="row">
+                <div class="blete-footer-content">
+
+                    <h6 class="blete-copyright-info">Copyright &copy; 2017.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></h6>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'includes/scripts.html' %}
+    <!-- =============================
+                SCRIPTS
+    ================================== -->
+    
+
+</body>
+
+</html>

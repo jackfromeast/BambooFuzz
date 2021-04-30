@@ -1,0 +1,74 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Elements {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<!-- <link rel="stylesheet" href="Web/app/base/static/assets/css/shared/animate.css"> -->
+<section id="contact" class="blete-section-wrapper blete-contact-section" data-stellar-background-ratio="0.5" name="contact">
+  <div class="blete-parallax-overlay"></div>
+  <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12 blete-section-header wow fadeInDown blete-section-header-parallax">
+          <h2>固件<span class="blete-highlight-text">上传</span></h2>
+          <div class="blete-section-divider"></div>
+          <p class="col-md-12 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1" id="upload_introduction">开始上传固件吧！</p>
+      </div>
+</div>
+</div>
+</section>
+
+  <div class="content-wrapper">
+    <div class="row wow slideInUp" data-wow-duration="1s">
+      <div class="col-md-6 grid-margin stretch-card" id='upload'>
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Upload</h4>
+            <p class="card-description"> Firmware information </p>
+            <form class="forms-sample">
+              <div class="form-group">
+                <label for="exampleInputName1">Name</label>
+                <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Brand</label>
+                <select class="form-control form-control-lg" id="exampleFormControlSelect1">
+                  <option>D-Link</option>
+                  <option>Cisco</option>
+                  <option>Netgear</option>
+                  <option>TP-Link</option>
+                  <option>Tenda</option>
+                  <option>TrendNet</option>
+                  <option>Belkin</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleTextarea1">Description</label>
+                <textarea class="form-control" id="exampleTextarea1" rows="2"></textarea>
+              </div>
+              <div class="form-group">
+                <label>File upload</label>
+                <input type="file" name="img[]" class="file-upload-default">
+                <div class="input-group col-xs-12">
+                  <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                  <span class="input-group-append">
+                    <button class="file-upload-browse btn btn-info" type="button">Upload</button>
+                  </span>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-success mr-2">Submit</button>
+              <button class="btn btn-light">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}{% endblock javascripts %}
