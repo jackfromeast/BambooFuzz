@@ -1,0 +1,130 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Elements {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+	.file {
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    background-color: #8862e0;
+    border-color: #8862e0; 
+    border: 1px solid transparent;
+    /* border-radius: 4px; */
+    /* padding: 4px 12px; */
+    overflow: hidden;
+    text-decoration: none;
+    text-indent: 0;
+    /* line-height: 20px; */
+    padding: 0.4rem 1rem;
+    font-size: 0.875rem;
+    line-height: 1;
+    border-radius: 0.1875rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; 
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.file:hover {
+  color: #fff;
+    background-color: #7042da;
+    border-color: #6837d8; 
+    /* background: #AADFFD;
+    border-color: #78C3F3; */
+    /* color: #004974; */
+    text-decoration: none;
+}
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<section id="contact" class="blete-section-wrapper blete-contact-section" data-stellar-background-ratio="0.5" name="contact">
+  <div class="blete-parallax-overlay"></div>
+  <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12 blete-section-header wow fadeInDown blete-section-header-parallax">
+          <h2>固件<span class="blete-highlight-text">上传</span></h2>
+          <div class="blete-section-divider"></div>
+          <p class="col-md-12 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1" id="upload_introduction">开始上传固件吧！</p>
+      </div>
+</div>
+</div>
+</section>
+
+  <div class="content-wrapper" id='up_firmware'>
+    <!-- <div class="row wow slideInDown" data-wow-duration="1s">
+      <div class="col-lg-6 grid-margin stretch-card" id='panda'>
+         <div class="card">
+          <div class="card-body">
+            <img style="display: inline-block; width: 100%; max-width: 100%; height: auto;" src="/static/assets/images/upload/up2.jpg">
+          </div>  
+        </div>
+      </div>
+    </div> -->
+
+    <div class="row wow slideInUp" data-wow-duration="1s">
+      <div class="col-md-6 grid-margin stretch-card" id='upload'>
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title"><strong>固件信息</strong></h4>
+            <form class="forms-sample" method="POST" enctype="multipart/form-data">
+              {{ form.hidden_tag() }}
+              <div class="form-group">
+                <label for="exampleInputName1">名称</label>
+                {{ form.name(type="text",class="form-control",id="firmwareName1",placeholder="Name")}}
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">品牌</label>
+                <select class="form-control form-control-lg" id="exampleFormControlSelect1" name='brand'>
+                  {% for o in data %}
+                  <option value="{{ o.name }}">{{ o.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleTextarea1">描述</label>
+                {{ form.info(class="form-control", id="info1", rows="2", type="textarea")}}
+              </div>
+              <div class="form-group">
+                <label>固件上传</label><br>
+                <div class="input-group col-xs-12">
+                  <!-- changed by summer -->
+                  <a href="javascript:;" class="file" id="uplaod_a">选择文件
+                  {{ form.firmware(id="file0")}}
+                  </a>
+                  {% for error in form.firmware.errors %}
+                      <span class="text-danger">{{ error }}</span>
+                  {% endfor %}
+                  <span class="showFileName"></span>
+                </div>
+              </div>
+              {{ form.submit(class="btn btn-success mr-2")}}
+              <!-- finished -->
+              <button class="btn btn-light">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<!-- changed by summer -->
+<script type="text/javascript">
+ $("#file0").on("change",function(){
+    var filePath=$(this).val();
+    var arr=filePath.split('\\');
+    var fileName=arr[arr.length-1];
+    $(".showFileName").html(fileName);
+})
+</script>
+{% endblock javascripts %}

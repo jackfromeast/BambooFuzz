@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/static/assets/images/favicon.png" />
+
+  <title>Flask Star Admin - {% block title %}{% endblock %} | AppSeed</title>
+
+  <link rel="stylesheet" href="/static/assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="/static/assets/vendors/iconfonts/ionicons/dist/css/ionicons.css">
+  <link rel="stylesheet" href="/static/assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
+  <link rel="stylesheet" href="/static/assets/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/static/assets/vendors/css/vendor.bundle.addons.css">
+
+  <link rel="stylesheet" href="/static/assets/css/shared/style.css">
+  <link rel="stylesheet" href="/static/assets/css/demo_1/style.css">
+
+
+  <!-- =============================
+                stylesheets
+    ================================== -->
+
+  <!-- Normalize And Bootstrap -->
+  <link rel="stylesheet" href="/static/assets/vendors/css/normalize.css">
+  <!-- <link rel="stylesheet" href="/static/assets/vendors/css/bootstrap.min.css"> -->
+
+  <!-- Google Font  -->
+  <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Raleway:600,700,400,300' rel='stylesheet' type='text/css'>
+
+  <!-- Font Icons -->
+  <!-- <link rel="stylesheet" href="/static/assets/vendors/css/font-awesome.min.css" /> -->
+
+  <!-- Plugin Default Stylesheets -->
+  <!-- <link rel="stylesheet" href="/static/assets/vendors/css/magnific-popup.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/slider-pro.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/owl.carousel.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/owl.theme.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/owl.transitions.css"> -->
+  <link rel="stylesheet" href="/static/assets/vendors/css/animate.css">
+
+  <!-- Main Stylesheet -->
+  <!-- <link rel="stylesheet" href="/static/assets/vendors/css/welcome_style.css">  -->
+  <link rel="stylesheet" href="/static/assets/vendors/css/responsive.css" />
+  <link rel="stylesheet" href="/static/assets/vendors/css/color.css" id="colors" />
+
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.1.1/dist/echarts.min.js"></script>
+
+  <!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script> -->
+  <!-- <script src="http://code.highcharts.com/highcharts.js"></script> -->
+  <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+  <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
+  <script src="https://code.highcharts.com.cn/highcharts/modules/networkgraph.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+  <script src="http://apps.bdimg.com/libs/highlight.js/9.1.0/highlight.min.js"></script>
+
+
+  <!-- Specific CSS goes HERE -->
+  {% block stylesheets %}{% endblock stylesheets %}
+
+</head>
+
+<body>
+  <div class="container-scroller">
+
+
+    {% include 'includes/navigation.html' %}
+
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper" style="padding-left: 0; padding-right: 0;">
+
+      {% include 'includes/sidebar.html' %}
+
+      <!-- partial -->
+      <div class="main-panel">
+
+        {% block content %}{% endblock content %}
+
+        {% include 'includes/footer.html' %}
+
+      </div>
+      <!-- main-panel ends -->
+
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  {% include 'includes/scripts.html' %}
+
+  <!-- Specific JS goes HERE -->
+  {% block javascripts %}{% endblock javascripts %}
+
+</body>
+
+</html>

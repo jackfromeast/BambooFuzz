@@ -257,7 +257,7 @@ def main(login_url, key_pair):
 
     # 开启对Login界面请求的监听
     global sni1
-    sni1 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_login.pcap' -name Loginsni", shell=True, cwd=sys.path[0], encoding="utf-8", preexec_fn=os.setsid)
+    sni1 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir645_login.pcap' -name Loginsni", shell=True, cwd=sys.path[0], encoding="utf-8", preexec_fn=os.setsid)
     time.sleep(3) # 等待启动spider1
 
     elements_in_login = get_all_XPath(driver, login_page)
@@ -273,7 +273,7 @@ def main(login_url, key_pair):
     
     # 成功登陆后准备爬取整站，开启监听
     global sni2
-    sni2 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir822_main.pcap' -name Sitesni -timeout 300", shell=True, cwd=sys.path[0], encoding="utf-8", preexec_fn=os.setsid)
+    sni2 = subprocess.Popen("sudo python3 sniffer.py -filepath './packets/dlink_dir645_main.pcap' -name Sitesni -timeout 600", shell=True, cwd=sys.path[0], encoding="utf-8", preexec_fn=os.setsid)
     time.sleep(3) # 等待spider2启动
 
     wait_to_req.append(driver.current_url)

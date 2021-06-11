@@ -1,0 +1,391 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="/static/assets/css/shared/style.css">
+<link rel="stylesheet" href="/static/assets/css/shared/subcontrol_nav.css">
+{% endblock stylesheets %}
+{{super()}}
+{% block javascripts %}
+<script src="/static/assets/js/shared/subcontrol_nav.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="/static/assets/js/shared/subcontrol_nav.js"></script>
+
+<script>
+  function open_win() {
+    alert("Bash 页面即将弹出");
+    window.open("https://www.baidu.com")
+  }
+</script>
+{% endblock javascripts %}
+
+{% block content %}
+
+<div class="content-wrapper">
+  <!-- Page Title Header Starts-->
+  <div class="row page-title-header" style="margin-bottom: 0;">
+    <!-- navbar 部分 -->
+    <div class="col-12">
+      <nav class="navbar navbar-expand-custom navbar-mainbg">
+        <a class="navbar-brand navbar-logo" href="#">固件控制界面 ｜</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <div class="hori-selector">
+              <div class="left"></div>
+              <div class="right"></div>
+            </div>
+            <li class="nav-item active">
+              <a class="nav-link" href="./sub_dashboard.html"><i class="far fa-chart-bar"></i>固件基本信息</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="javascript:open_win();"><i class="far fa-calendar-alt"></i></i>固件终端交互</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./show_spider.html"><i class="far fa-clone"></i>WEB服务接口测试</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="./show_session.html"><i class="fas fa-tachometer-alt"></i>模糊测试</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./index.html">返回总控制台</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- 分割线 -->
+      <div class="page-header">
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Title Header Ends-->
+  <!-- 系统目录 -->
+  <div class="row">
+    <div class=" col-md-4 grid-margin stretch-card justify-content-center" style="border-radius: 10px;">
+      <div class="card" style="border-radius: 10px;">
+        <div class="card-body" style="padding: 0;">
+          <div class="card col-md-12 grid-margin " style="border-radius: 0.5rem; height: 16rem; background:url('/static/assets/images/subDBImg/router.png') no-repeat;
+      background-position: 1rem 0 ; 
+      background-size: 50%; 
+      background-color:rgb(105, 178, 115);
+      border:0;">
+            <div style="height: 100%; width: 100%; margin-right: 0;">
+              <button class="float-right btn btn-success" onclick="open_win()"
+                style="text-align: center; font-size: 20px; width: 150px; margin-top: 100px;">Running</button>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: -1rem; padding-left: 10px;padding-right: 10px;">
+            <div class="col-md-6 grid-margin stretch-card " style="margin-top: -5rem;">
+              <div class="card text-white" style="background-color:#fff4de!important; border-radius: 10px;">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between pb-2 align-items-center">
+                    <h5 class="font-weight-semibold mb-0" style="color: #ffa800!important;">品牌</h5>
+                    <div class="icon-holder" style="background-color: #fff4de!important;">
+                      <i class="bi bi-hdd-network" style="font-size: 2rem; color: #ffa800!important;"></i>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+
+                    <h3 class="font-weight-semibold mb-0" style="color: #ffa800!important;">DLink</h2>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 grid-margin stretch-card " style="margin-top: -5rem;">
+              <div class="card text-white" style="background-color:#e1f0ff!important; ; border-radius: 10px;">
+                <div class="card-body">
+
+                  <div class="d-flex justify-content-between pb-2 align-items-center">
+                    <h5 class="font-weight-semibold mb-0" style="color: #3699ff!important;">CPU架构</h5>
+                    <div class="icon-holder" style="background-color: #e1f0ff!important;">
+                      <i class="bi bi-cpu" style="font-size: 2rem;color: #3699ff!important;"></i>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between">
+                    <h3 class="font-weight-semibold mb-0" style="color: #3699ff!important;">MIPS</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 grid-margin stretch-card ">
+              <div class="card text-white" style="background-color: #ffe2e5!important; border-radius: 10px;">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between pb-2 align-items-center">
+                    <h5 class="font-weight-semibold mb-0" style="color: #f64e60!important;">型号</h5>
+                    <div class="icon-holder" style="background-color: #ffe2e5!important;">
+                      <i class="bi bi-info-circle" style="font-size: 2rem;color: #f64e60!important;"></i>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <h3 class="font-weight-semibold mb-0" style="color: #f64e60!important;">645L</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 grid-margin stretch-card ">
+              <div class="card text-white" style="background-color:#c9f7f5!important; border-radius: 10px;">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between pb-2 align-items-center">
+
+                    <h5 class="font-weight-semibold mb-0" style="color: #1bc5bd!important;">服务器</h5>
+                    <div class="icon-holder" style="background-color: #c9f7f5!important;">
+                      <i class="bi bi-server" style="font-size: 2rem; color: #1bc5bd!important;"></i>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <h3 class="font-weight-semibold mb-0" style="color: #1bc5bd!important;">Httpd</h2>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8 grid-margin stretch-card">
+      <div class="card" style="border-radius: 10px;">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="font-weight-bold text-dark-75 text-hover-primary font-size-lg" style="font-size: 30px;">
+              固件系统目录
+              <div class="card-description d-block text-muted pt-2" style="font-size: 1rem;">
+                系统信息展示</div>
+            </div>
+            <div class="rounded justify-content-center">
+              <button type="button" class="btn btn-light"><i class="bi bi-cloud-download"
+                  style="font-size: 2rem; margin: auto;"></i></button>
+            </div>
+
+          </div>
+          <!-- <p>以下是固件分析的一些基本信息</p> -->
+          <div class="d-flex align-items-center rounded"
+            style="margin-top: 10px; padding: 10px;  background-color: #fff4de ;">
+            <div class="svg-icon svg-icon-warning mr-5">
+              <svg t="1619616296050" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" p-id="1138" width="40" height="40">
+                <path
+                  d="M820.5312 858.8288H303.4624c-54.6304 0-98.9184-43.6736-98.9184-97.536V361.472c0-53.8624 44.288-97.536 98.9184-97.536h155.2384c12.3904 0 24.2176 5.12 32.512 14.1824l65.024 70.3488a44.40064 44.40064 0 0 0 32.512 14.1824h231.7312c54.6304 0 98.9184 43.6736 98.9184 97.536v301.1584c0.0512 53.8112-44.2368 97.4848-98.8672 97.4848z"
+                  fill="#56E5BE" p-id="1139"></path>
+                <path
+                  d="M831.1808 858.8288H369.7664c-48.7424 0-88.2688-38.9632-88.2688-87.04V414.976c0-48.0768 39.5264-87.04 88.2688-87.04h136.448c12.3904 0 24.2176 5.12 32.512 14.1824L593.92 401.8176a44.40064 44.40064 0 0 0 32.512 14.1824h204.6976c48.7424 0 88.2688 38.9632 88.2688 87.04v268.7488c0.0512 48.0256-39.4752 87.04-88.2176 87.04z"
+                  fill="#50DDB8" p-id="1140">
+
+                </path>
+                <path
+                  d="M841.8816 858.8288H436.48c-42.8544 0-77.568-34.2528-77.568-76.4928V468.8384c0-42.24 34.7136-76.4928 77.568-76.4928h117.5552c12.3904 0 24.2176 5.12 32.512 14.1824l45.312 48.9984a44.40064 44.40064 0 0 0 32.512 14.1824h177.5104c42.8544 0 77.568 34.2528 77.568 76.4928v236.1344c0 42.24-34.7136 76.4928-77.568 76.4928z"
+                  fill="#42D3AD" p-id="1141"></path>
+                <path
+                  d="M807.3216 889.5488H221.184c-78.7456 0-142.848-64.1024-142.848-142.848V286.976c0-78.7456 64.1024-142.848 142.848-142.848h178.8416c20.7872 0 40.7552 8.8064 54.784 24.1664l77.568 85.0944c2.4064 2.6112 5.8368 4.1472 9.3696 4.1472h265.5232c78.7456 0 142.848 64.1024 142.848 142.848v346.2656c0.0512 78.7968-64.0512 142.8992-142.7968 142.8992zM221.184 205.568c-44.9024 0-81.408 36.5056-81.408 81.408v459.6736c0 44.9024 36.5056 81.408 81.408 81.408h586.1376c44.9024 0 81.408-36.5056 81.408-81.408V400.4352c0-44.9024-36.5056-81.408-81.408-81.408h-265.5232c-20.7872 0-40.7552-8.8064-54.784-24.1664L409.3952 209.7152c-2.4064-2.6112-5.8368-4.1472-9.3696-4.1472H221.184z"
+                  fill="#2E3138" p-id="1142"></path>
+              </svg>
+            </div>
+            <div class="d-flex  flex-grow-1 mr-2">
+              <div class="font-weight-bold text-dark-75 text-hover-primary font-size-lg" >
+                内核引导程序路径
+              </div>
+              <div  style="width: 600px;text-align:center">
+              <span class="pl-10 font-weight-bold text-dark-75 text-hover-primary font-size-lg" ">
+                /etc/init0.d/rcS
+            </span>
+          </div>
+            </div>
+            <span class="font-weight-bolder text-warning py-1 font-size-lg">参数</span>
+          </div>
+
+          <div class="d-flex align-items-center rounded"
+            style="margin-top: 10px; padding: 10px;background-color: #c9f7f5 ;">
+            <span class="svg-icon svg-icon-warning mr-5">
+              <span class="svg-icon svg-icon-lg">
+                <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Home/Library.svg-->
+                <svg t="1619617670388" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                  xmlns="http://www.w3.org/2000/svg" p-id="830" width="40" height="40">
+                  <path
+                    d="M0 0m125.41335 0l773.1733 0q125.41335 0 125.41335 125.41335l0 773.1733q0 125.41335-125.41335 125.41335l-773.1733 0q-125.41335 0-125.41335-125.41335l0-773.1733q0-125.41335 125.41335-125.41335Z"
+                    fill="#F5AD28" p-id="831"></path>
+                  <path
+                    d="M296.759339 753.890998a47.030006 47.030006 0 0 1-47.030006-47.030006v-120.396816a47.030006 47.030006 0 0 1 94.060012 0v120.396816a47.030006 47.030006 0 0 1-47.030006 47.030006zM512 753.890998a47.030006 47.030006 0 0 1-47.030006-47.030006V317.139008a47.030006 47.030006 0 1 1 94.060012 0v389.721984a47.030006 47.030006 0 0 1-47.030006 47.030006z"
+                    fill="#F8DAB2" p-id="832"></path>
+                  <path
+                    d="M727.240661 753.890998a47.030006 47.030006 0 0 1-47.030006-47.030006V485.97673a47.030006 47.030006 0 0 1 94.060012 0v220.884262a47.030006 47.030006 0 0 1-47.030006 47.030006z"
+                    fill="#FCF7EF" p-id="833"></path>
+                </svg>
+                <!--end::Svg Icon-->
+              </span>
+            </span>
+            <div class="d-flex  flex-grow-1 mr-2">
+              <div class="font-weight-bold text-dark-75 text-hover-primary font-size-lg ">内核版本号（操作系统类型）
+              </div>
+              <div  style="width: 485px;text-align:center">
+                <span class="pl-10 font-weight-bold text-dark-75 text-hover-primary font-size-lg" ">
+                  Linux version 2.6.33.2
+              </span>
+            </div>
+            
+            </div>
+            <span class="font-weight-bolder text-warning py-1 font-size-lg">参数</span>
+          </div>
+
+          <div class="d-flex align-items-center rounded"
+            style="margin-top: 10px; padding: 10px;background-color: #ffe2e5  ;">
+            <span class=" svg-icon svg-icon-warning mr-5">
+              <span class="svg-icon svg-icon-lg">
+                <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Home/Library.svg-->
+                <svg t="1619617435566" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                  xmlns="http://www.w3.org/2000/svg" p-id="1103" width="40" height="40">
+                  <path
+                    d="M770.9696 333.9776h-32.9216V272.9984c0-123.0336-100.096-223.0784-223.0784-223.0784C391.8848 49.92 291.84 149.9648 291.84 272.9984v60.9792h-32.9216c-84.8384 0-153.6 68.7616-153.6 153.6v307.5584c0 84.8384 68.7616 153.6 153.6 153.6h512.0512c84.8384 0 153.6-68.7616 153.6-153.6V487.5776c0-84.8384-68.7616-153.6-153.6-153.6zM368.64 272.9984c0-80.6912 65.6384-146.2784 146.2784-146.2784s146.2784 65.6384 146.2784 146.2784v60.9792H368.64V272.9984z"
+                    fill="#aaaaf8" p-id="1104"></path>
+                  <path
+                    d="M578.304 567.9616c0-34.9696-28.3648-63.3344-63.3344-63.3344-34.9696 0-63.3344 28.3648-63.3344 63.3344 0 20.5312 9.7792 38.7072 24.9344 50.2784v112.4864c0 21.1968 17.2032 38.4 38.4 38.4s38.4-17.2032 38.4-38.4v-112.4864c15.1552-11.5712 24.9344-29.7472 24.9344-50.2784z"
+                    fill="#FFCD43" p-id="1105"></path>
+                </svg>
+                <!--end::Svg Icon-->
+              </span>
+              </span>
+            <div class="d-flex  flex-grow-1 mr-2">
+              <div class="font-weight-bold text-dark-75 text-hover-primary font-size-lg ">文件系统hash值
+              </div>
+              <div  style="width: 800px;text-align:center">
+                <span class="pl-10 font-weight-bold text-dark-75 text-hover-primary font-size-lg" ">
+                  12a10a6a2fe96e0b7a50c2babd714e3d
+              </span>
+            </div>
+            
+            </div>
+            <span class="font-weight-bolder text-warning py-1 font-size-lg">参数</span>
+          </div>
+
+      
+
+          <div class="d-flex align-items-center rounded"
+            style="margin-top: 10px; padding: 10px;background-color: #eee5ff  ;">
+            <span class=" svg-icon svg-icon-warning mr-5">
+            <span class="svg-icon svg-icon-lg">
+              <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Home/Library.svg-->
+              <svg t="1619617823221" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" p-id="1188" width="40" height="40">
+                <path
+                  d="M617.0624 619.6736m-212.7872 0a212.7872 212.7872 0 1 0 425.5744 0 212.7872 212.7872 0 1 0-425.5744 0Z"
+                  fill="#FF8080" p-id="1189"></path>
+                <path
+                  d="M630.4256 830.464H423.424c-46.4896 0-84.2752-37.7856-84.2752-84.2752v-35.2256c0-1.0752-0.512-2.1504-1.4336-2.7648-92.7232-64.7168-145.6128-170.8032-141.568-283.7504 6.1952-170.6496 144.5888-310.4768 315.0848-318.3616 91.3408-4.2496 178.176 28.16 244.224 91.1872 66.048 63.0784 102.4512 148.1216 102.4512 239.4112 0 107.9808-52.9408 209.4592-141.6704 271.4112a3.4816 3.4816 0 0 0-1.536 2.8672v35.1744c0 46.4896-37.7856 84.3264-84.2752 84.3264zM527.0528 156.8768c-4.4544 0-8.96 0.1024-13.4144 0.3072C369.5104 163.84 252.5696 282.0096 247.3472 426.24c-3.4304 95.5392 41.2672 185.1904 119.7056 239.9232 14.592 10.1888 23.3472 26.9312 23.3472 44.7488v35.2256c0 18.2272 14.848 33.0752 33.0752 33.0752h206.9504c18.2272 0 33.0752-14.848 33.0752-33.0752v-35.1744c0-17.8176 8.7552-34.56 23.4496-44.8 75.008-52.3776 119.7568-138.1888 119.7568-229.4784 0-77.2096-30.7712-149.0432-86.5792-202.3936-52.5824-50.176-120.7296-77.4144-193.0752-77.4144zM709.1712 922.3168H344.6784c-14.1312 0-25.6-11.4688-25.6-25.6s11.4688-25.6 25.6-25.6h364.4416c14.1312 0 25.6 11.4688 25.6 25.6s-11.4176 25.6-25.5488 25.6z"
+                  fill="#512C56" p-id="1190"></path>
+              </svg>
+              <!--end::Svg Icon-->
+            </span>
+            </span>
+            <div class="d-flex  flex-grow-1 mr-2">
+              <div class="font-weight-bold text-dark-75 text-hover-primary font-size-lg">文件系统类型
+              </div>
+
+              <div  style="width: 620px;text-align:center">
+                <span class="pl-10 font-weight-bold text-dark-75 text-hover-primary font-size-lg" >
+                  Squashfs
+              </span>
+            </div>
+              
+            </div>
+            <span class="font-weight-bolder text-warning py-1 font-size-lg">参数</span>
+          </div>
+
+
+          <!-- 端口服务 -->
+          <div class="d-flex align-items-center rounded"
+          style="margin-top: 10px; padding: 10px;background-color: rgb(169, 200, 221)  ;">
+          <span class=" svg-icon svg-icon-warning mr-5">
+            <span class="svg-icon svg-icon-lg">
+              <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Home/Library.svg-->
+              <svg t="1619617435566" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                xmlns="http://www.w3.org/2000/svg" p-id="1103" width="40" height="40">
+                <path
+                  d="M770.9696 333.9776h-32.9216V272.9984c0-123.0336-100.096-223.0784-223.0784-223.0784C391.8848 49.92 291.84 149.9648 291.84 272.9984v60.9792h-32.9216c-84.8384 0-153.6 68.7616-153.6 153.6v307.5584c0 84.8384 68.7616 153.6 153.6 153.6h512.0512c84.8384 0 153.6-68.7616 153.6-153.6V487.5776c0-84.8384-68.7616-153.6-153.6-153.6zM368.64 272.9984c0-80.6912 65.6384-146.2784 146.2784-146.2784s146.2784 65.6384 146.2784 146.2784v60.9792H368.64V272.9984z"
+                  fill="#aaaaf8" p-id="1104"></path>
+                <path
+                  d="M578.304 567.9616c0-34.9696-28.3648-63.3344-63.3344-63.3344-34.9696 0-63.3344 28.3648-63.3344 63.3344 0 20.5312 9.7792 38.7072 24.9344 50.2784v112.4864c0 21.1968 17.2032 38.4 38.4 38.4s38.4-17.2032 38.4-38.4v-112.4864c15.1552-11.5712 24.9344-29.7472 24.9344-50.2784z"
+                  fill="#FFCD43" p-id="1105"></path>
+              </svg>
+              <!--end::Svg Icon-->
+            </span>
+            </span>
+          <div class="d-flex  flex-grow-1 mr-2">
+            <div class="font-weight-bold text-dark-75 text-hover-primary font-size-lg ">端口服务
+            </div>
+            <div  style="width:830px;text-align:center">
+              <span class="pl-10 font-weight-bold text-dark-75 text-hover-primary font-size-lg" ">
+                23/telnet 53/domain  80/http
+            </span>
+          </div>
+          
+          </div>
+          <span class="font-weight-bolder text-warning py-1 font-size-lg">参数</span>
+        </div>
+
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- 网络拓扑图 -->
+    <!-- <div class="col-md-8 grid-margin stretch-card">
+      <div class="card" style="border-radius: 10px;">
+        <div class="card-body">
+          <h4 class="card-title mb-0" , style="text-align: center; font-size: large;">网络拓扑图</h4>
+          <div class="d-flex flex-column flex-lg-row">
+            <div class="card-description d-block text-muted pt-2" style="font-size: 1rem;">
+              docker网络</div>
+            <ul class="nav nav-tabs sales-mini-tabs ml-lg-auto mb-4 mb-md-0" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="sales-statistics_switch_1" data-toggle="tab" role="tab"
+                  aria-selected="true"></a>
+              </li>
+            </ul>
+          </div>
+          <div class="d-flex flex-column flex-lg-row">
+            <div class="data-wrapper d-flex mt-2 mt-lg-0">
+              <div class="wrapper pr-5">
+                <h5 class="mb-0">Total Cost</h5>
+                <div class="d-flex align-items-center">
+                  <h4 class="font-weight-semibold mb-0">15,263</h4>
+                  <small class="ml-2 text-gray d-none d-lg-block"><b>89.5%</b> of 20,000 Total</small>
+                </div>
+              </div>
+              <div class="wrapper">
+                <h5 class="mb-0">Total Revenue</h5>
+                <div class="d-flex align-items-center">
+                  <h4 class="font-weight-semibold mb-0">$753,098</h4>
+                  <small class="ml-2 text-gray d-none d-lg-block"><b>10.5%</b> of 20,000 Total</small>
+                </div>
+              </div>
+            </div>
+            <div class="ml-lg-auto" id="sales-statistics-legend"></div>
+          </div>
+          <canvas class="mt-5" height="120" id="sales-statistics-overview"></canvas>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+
+  
+
+</div>
+
+{% endblock content %}

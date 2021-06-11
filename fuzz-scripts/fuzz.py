@@ -1,19 +1,19 @@
 """
     fuzz测试脚本
-
-    不包括Moniter部分，仅用于测试以下内容：
-        + 变异算法的正确性
-        + 数据报文序列化与反序列化的正确性
-        + 对于响应内容的监控
 """
 import sys
 import os
+
+
+from tornado.httputil import url_concat
 sys.path.insert(1,os.path.abspath('./boofuzz-src/'))  # 优先调用boofuzz再开发的模块而不是之前的第三方模块
 sys.path.insert(1,os.path.abspath('./'))
 from boofuzz import *
 from boofuzz.exception import BoofuzzTargetConnectionReset
 from pcapParse.MsgTree import MsgTree
 from pcapParse.tree2message import Serializer
+from angr_taint_engine import TaintLauncher
+from get_addr import addrFinder
 
 
 class BambooFuzzer(object):
@@ -28,19 +28,24 @@ class BambooFuzzer(object):
         self.netmon_port = target_info['netmon_port']
         self.procmon_port = target_info['procmon_port']
         self.fuzz_log_file = target_info['log_file']
+        self.moniter = target_info['moniter']
 
         self.session = None
+
+        self.procmon = None
     
     def fuzz(self):
         """
             主程序，开启对目标的模糊测试
         """
+        self.__setup_moniter()
         self.__init_session()
         self.__add_callbacks()
 
         self.__gen_seed_requests()
 
         if self.__connect_session_graph():
+            
             self.session.fuzz()
         
         self.fuzz_log_file.close()
@@ -53,13 +58,35 @@ class BambooFuzzer(object):
 
         self.fuzz_log_file = open(self.fuzz_log_file, 'w')
 
-        self.session = Session(
-            target = Target(connection=TCPSocketConnection(self.target_ip, self.target_port)),
-            fuzz_loggers = [FuzzLoggerText(), FuzzLoggerCsv(file_handle=self.fuzz_log_file)],
-            ignore_connection_reset = True,
-            ignore_connection_aborted = True
-        )
+        if self.moniter:
+            self.session = Session(
+                target = Target(connection=TCPSocketConnection(self.target_ip, self.target_port), monitors=[self.procmon]),
+                fuzz_loggers = [FuzzLoggerText(), FuzzLoggerCsv(file_handle=self.fuzz_log_file)],
+                ignore_connection_reset = True,
+                ignore_connection_aborted = True,
+            )
+        else:
+            self.session = Session(
+                target = Target(connection=TCPSocketConnection(self.target_ip, self.target_port)),
+                fuzz_loggers = [FuzzLoggerText(), FuzzLoggerCsv(file_handle=self.fuzz_log_file)],
+                ignore_connection_reset = True,
+                ignore_connection_aborted = True,
+            )
     
+    def __setup_moniter(self):
+        """
+            添加moniter
+        """
+        # 进程监控Moniter
+        if self.moniter:
+            self.procmon = ProcessMonitor(self.target_ip, self.procmon_port) 
+            procmon_options = {
+                "proc_name" : "qemu-arm",
+                "start_commands": 'echo "127.0.0.1 Network-Camera localhost" >   /proc/sys/kernel/hostname && qemu-arm -L . ./usr/sbin/httpd',
+                "cwd_path": '/home/apple/IoT_firmware_images/_CC8160-VVTK-0100d.flash.zip.extracted/_CC8160-VVTK-0100d.flash.pkg.extracted/_31.extracted/_rootfs.img.extracted/squashfs-root/'
+                }
+            self.procmon.set_options(**procmon_options)
+
 
     def __add_callbacks(self):
         """
@@ -88,7 +115,7 @@ class BambooFuzzer(object):
 
             if check_flag:  
                 fuzz_data_logger.log_check('Verifying response contains inject commands exec result.')
-                potential_results_lib = ['Linux', 'FoundABug!!!', '127.0.0.1 is alive!']
+                potential_results_lib = ['FoundABug!!!', '127.0.0.1 is alive!']
 
                 for potential_res in potential_results_lib:
                     if response.find(potential_res) != -1:
@@ -141,6 +168,9 @@ class BambooFuzzer(object):
         for r_name in REQUESTS.keys():
             self.session.connect(s_get('Request-login'), s_get(r_name))
         
+        # for r_name in REQUESTS.keys():
+        #     self.session.connect(s_get(r_name))
+
         with open('./fuzz-scripts/session.png', 'wb') as fs:
             fs.write(self.session.render_graph_graphviz().create_png())
         
@@ -149,16 +179,35 @@ class BambooFuzzer(object):
 
 if __name__ == "__main__":
 
-    target_info = {
-        'target_ip': "192.168.0.1",
-        'target_port': 80,
-        'login_packs': './spider/packets/dlink_dir822_login.pcap',
-        'main_packs': './spider/packets/dlink_dir822_main.pcap',
-        'netmon_port': 26001,
-        'procmon_port': 26002,
-        'log_file': './fuzz-results/dlink-dir822-fuzzlog.csv'
-    }
+    addr_finder = addrFinder('./fuzz-scripts/test_arm', ['password', 'ACTIONS', 'USER', 'PASSWD', 'CAPTCHA', 'HTTP_COOKIE', 'EVENT', 'HTTP_REFERER','HTTP_HOST','Path'])
+    (source_addrs, sink_func_addrs) = addr_finder.find()
+    print(source_addrs)
+    print(sink_func_addrs)
 
-    bamboofuzzer = BambooFuzzer(target_info)
-    bamboofuzzer.fuzz()
+    tracing_infos = {}
+    taint_analyzer = TaintLauncher("./fuzz-scripts/test_arm", sink_addrs=sink_func_addrs)
+    taint_analyzer.start_logging()
     
+    for source_name, source_addr in source_addrs.items():
+        taint_analyzer.run(start_addr=0x010590, taint_source=source_addr)
+        tracing_infos[source_name] = taint_analyzer.current_tracing_info
+        print(taint_analyzer.current_tracing_info)
+        break
+        
+
+    taint_analyzer.stop_logging()
+
+
+    # target_info = {
+    #     'target_ip': "192.168.0.1",
+    #     'target_port': 80,
+    #     'login_packs': './spider/packets/dlink_dir645_login.pcap',
+    #     'main_packs': './spider/packets/dlink_dir645_main.pcap',
+    #     'netmon_port': 26001,
+    #     'procmon_port': 26002,
+    #     'moniter': False,
+    #     'log_file': './fuzz-results/dlink-dir645-fuzzlog.csv'
+    # }
+
+    # bamboofuzzer = BambooFuzzer(target_info)
+    # bamboofuzzer.fuzz()

@@ -91,8 +91,8 @@ if __name__ == '__main__':
     fh = firmadyne_helper(int(sys.argv[1]))
     fh.show_info()
     fh.connect()
-    fh.send("mv /lib /orglib && mv /dyslib /lib\n")#dilision
-    fh.send("cp /firmadyne/Pythoninstall/bin/python3.7 /bin/python\n")#dilision
+    # fh.send("mv /lib /orglib && mv /dyslib /lib\n")#dilision
+    # fh.send("cp /firmadyne/Pythoninstall/bin/python3.7 /bin/python\n")#dilision
 
     def menu():
         print('------------------------------')

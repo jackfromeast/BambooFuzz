@@ -1,4 +1,6 @@
 {cmd}
+|{cmd}%26
+%26{cmd}%26
 ;{cmd}
 ;{cmd};
 ^{cmd}

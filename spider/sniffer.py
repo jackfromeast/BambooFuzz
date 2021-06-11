@@ -63,7 +63,7 @@ def catch_pkt(network_card, pcap_file, filters, timeout, name):
 @click.command()
 @click.option('-filepath', default='./packets/tmp.pcap', help='Where you should save the captured packets.')
 @click.option('-filters', default='host 192.168.0.1', help='Set packets filter.')
-@click.option('-netcard', default='tap2_0', help='Set listening network cards.')
+@click.option('-netcard', default='tap15_0', help='Set listening network cards.')
 @click.option('-timeout', default=None, help='Set timeout.')
 @click.option('-name', default='Default', help='Set sniffer name.')
 def sniffer_main(filepath, filters, netcard, timeout, name):

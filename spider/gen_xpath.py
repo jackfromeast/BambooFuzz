@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.common.exceptions import TimeoutException,InvalidSelectorException
+from selenium.common.exceptions import TimeoutException, InvalidSelectorException
 from bs4 import BeautifulSoup
 import bs4
 import re
@@ -61,7 +61,8 @@ class Xpath_Util:
                                     result_flag = True
                                     self.button_xpaths["%s_%d"%(guessable_element,self.button_index)] = "%s"%(locator.encode('utf-8').decode('latin-1'))
                                     self.button_index+=1
-                            if (result_flag==False) and (guessable_element == 'button' or (guessable_element == 'input' and element.has_attr('onclick'))):
+                                if((result_flag==False) and (guessable_element == 'button' or (guessable_element == 'input' and element.has_attr('onclick')))):
+                                    pass
                                 # if the variable name is already taken
                                 # print("new method begin!")
                                 locator=self.guess_xpath_all_attr(guessable_element,element)
@@ -72,14 +73,13 @@ class Xpath_Util:
                                         # print(ele.is_displayed())
                                         if(ele.is_displayed()==True):
                                             num+=1                                     
-                                    # print("len:")
-                                    # print(num)
                                     if num==1:
                                         result_flag = True
                                         self.button_xpaths["%s_%d"%(guessable_element,self.button_index)] = "%s"%(locator.encode('utf-8').decode('latin-1'))
-                                        self.button_index+=1       
+                                        self.button_index+=1
                         except(InvalidSelectorException):
-                              pass 
+                            pass
+
                         if(result_flag==False): #经过所有操作之后发现还是找不到xpath         
                             print(locator.encode('utf-8').decode('latin-1') + "---->the element doesn't diaplay!")
                 else:
