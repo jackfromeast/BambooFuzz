@@ -2,7 +2,7 @@
 
 ## BambooFuzz: An IoT Firmware Vulnerability Mining System based on Static and Dynamic Analysis
 
-本作品从实际需求出发，对设备虚拟化、网络虚拟化、Dokcer容器技术、动态网络爬虫、数据包解析、污点分析、模糊测试等技术进行有机融合，**创新性地设计了****BambooFuzz：物联网固件动态漏洞挖掘系统，旨在建立了一个通用的大规模固件仿真运行和管理框架，并在此基础上构建一个以静态分析为导向的高测试效率、细监测粒度、自适应的模糊测试系统**。
+本作品从实际需求出发，对设备虚拟化、网络虚拟化、Dokcer容器技术、动态网络爬虫、数据包解析、污点分析、模糊测试等技术进行有机融合，**创新性地设计了**BambooFuzz：物联网固件动态漏洞挖掘系统，旨在建立了一个通用的大规模固件仿真运行和管理框架，并在此基础上构建一个以静态分析为导向的高测试效率、细监测粒度、自适应的模糊测试系统**。
 
 <div align=center><img src="README.assets/bambofuzz_icon2.png" alt="bambofuzz_icon2" width="30%" /></div>
 
