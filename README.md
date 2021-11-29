@@ -4,13 +4,13 @@
 
 本作品从实际需求出发，对设备虚拟化、网络虚拟化、Dokcer容器技术、动态网络爬虫、数据包解析、污点分析、模糊测试等技术进行有机融合，**创新性地设计了****BambooFuzz：物联网固件动态漏洞挖掘系统，旨在建立了一个通用的大规模固件仿真运行和管理框架，并在此基础上构建一个以静态分析为导向的高测试效率、细监测粒度、自适应的模糊测试系统**。
 
-<img src="README.assets/bambofuzz_icon2.png" alt="bambofuzz_icon2" width="50%" />
+<div align=center><img src="README.assets/bambofuzz_icon2.png" alt="bambofuzz_icon2" width="30%" /></div>
 
 ## 0 系统设计 System Design
 
 本项目主要分为五个模块，分别为Web交互模块、固件仿真运行模块、种子报文生成模块、模糊测试模块、监测模块。以下为各模块的具体作用，本系统总体流程设计下图所示。
 
-<img src="README.assets/总体系统构建.png" alt="总体系统构建" />
+<div align=center><img src="README.assets/总体系统构建.png" alt="总体系统构建" width="80%"/></div>
 
 + **Web交互模块**，提供易于用户操作的Web平台。
 + **固件仿真模块**，负责搭建固件的仿真运行环境，执行固件仿真流程，确保用户提交的固件能够在通用的PC机环境下正常运行。
@@ -20,7 +20,7 @@
 
 整个系统核心功能如下所示。
 
-![系统核心功能图](README.assets/系统核心功能图.png)
+<div align=center><img src="README.assets/系统核心功能图.png" alt="系统核心功能图" width="80%"/></div>
 
 ## 2 系统模块设计
 
@@ -37,56 +37,50 @@
 
 种子报文生成模块负责对目标固件的Web通信接口进行扫描，获取若干正常交互过程的请求报文。使用BRPT树对报文进行反序列化解析，清洗筛选，相似度分析以及结构变异。最终将报文树序列化生成可直接用于模糊测试的高质量种子报文，如下图所示。
 
-<img src="README.assets/截屏2021-11-28 下午9.45.11.png" alt="截屏2021-11-28 下午9.45.11" style="zoom:67%;" />
+<div align=center><img src="README.assets/截屏2021-11-28 下午9.45.11.png" alt="种子报文生成模块" width="80%"/></div>
 
 ### 2.3 模糊测试模块
 
 模糊测试模块作为整个系统的核心模块用于驱动整个测试的进行，具体包括字段趋向性漏洞评分、种子报文变异、会话管理、数据存储等。首先，模糊测试模块将对种子报文的各字段进行静态分析得到漏洞趋向性评分，进而确定各字段的变异方向及变异策略。在模糊测试主循环中，模糊测试测试引擎将与目标服务器建立会话，变异种子报文得到测试用例并发送该测试用例。每轮测试用例发送后，将从监测模块获取反馈信息，判断该轮测试用例是否触发漏洞。最终将当前测试用例、响应及监测信息存储至数据库。其中，具体变异策略包括长字符串扩展，特殊字符构建，字段置空，类型转换，复制扩展和路径穿越，根据字段的漏洞趋向性评分将被不同程度地应用。
 
-![模糊测试模块主流程图](README.assets/模糊测试模块主流程图.png)
+<div align=center><img src="README.assets/模糊测试模块主流程图.png" alt="模糊测试模块主流程图" width="60%"/></div>
 
 模块实现的技术依赖如下图所示。
 
-![模块实现技术依赖](README.assets/模块实现技术依赖.png)
+<div align=center><img src="README.assets/模块实现技术依赖.png" alt="模块实现技术依赖" width="60%"/></div>
 
 ### 2.4 监测模块
 
 监测模块是模糊测试中重要的一环。当模糊测试模块发送测试用例后，需要检测模块对目标进行监测并将监测信息进行反馈。此外，需要在测试开始、崩溃发生以及测试停止时，对目标分别进行启动、停止以及重启操作。为了更加有效地监测到漏洞的触发，我们对监测内容进行了拓展和细化。首先从监测对象上，我们从对单一的Web服务器进程监测拓展至对响应包内容、Web服务器进程以及其创建的所有子进程的监测。从监测内容上，我们增加了对进程管理类系统调用的监测。
 
-![监测模块工作流程](README.assets/监测模块工作流程.png)
+<div align=center><img src="README.assets/监测模块工作流程.png" alt="监测模块工作流程" width="60%"/></div>
 
 ## 3 项目界面展示
 
 系统入口
 
-![系统入口界面](image/系统入口界面.png)
+<div align=center><img src="README.assets/系统入口界面.png" alt="系统入口界面" width="60%"/></div>
 
 固件上传页面
-
-![固件上传界面](README.assets/固件上传界面.png)
+<div align=center><img src="README.assets/固件上传界面.png" alt="固件上传界面" width="60%"/></div>
 
 固件容器集群管理界面
-
-![固件集群管理界面](README.assets/固件集群管理界面.png)
+<div align=center><img src="README.assets/固件集群管理界面.png" alt="固件集群管理界面" width="60%"/></div>
 
 固件历史信息展示
+<div align=center><img src="README.assets/固件历史信息展示.png" alt="固件历史信息展示" width="60%"/></div>
 
-![固件历史信息展示](README.assets/固件历史信息展示.png)
-
-![固件历史信息展示-2](README.assets/固件历史信息展示-2.png)
+<div align=center><img src="README.assets/固件历史信息展示-2.png" alt="固件历史信息展示-2" width="60%"/></div>
 
 终端控制页面
-
-![截屏2021-11-28 下午10.06.49](README.assets/固件交互页面.png)
+<div align=center><img src="README.assets/固件交互页面.png" alt="固件交互页面" width="60%"/></div>
 
 网络爬虫监控展示
+<div align=center><img src="README.assets/爬虫监控展示页面.png" alt="爬虫监控展示页面" width="60%"/></div>
 
-![截屏2021-11-28 下午10.07.00](README.assets/爬虫监控展示页面.png)
-
-![截屏2021-11-28 下午10.07.09](README.assets/固件爬虫展示页面2.png)
+<div align=center><img src="README.assets/固件爬虫展示页面2.png" alt="固件爬虫展示页面2" width="60%"/></div>
 
 模糊测试控制界面
+<div align=center><img src="README.assets/模糊测试控制页面.png" alt="模糊测试控制页面" width="60%"/></div>
 
-![模糊测试控制页面](README.assets/模糊测试控制页面.png)
-
-![模糊测试控制页面2](README.assets/模糊测试控制页面2.png)
+<div align=center><img src="README.assets/模糊测试控制页面2.png" alt="模糊测试控制页面2" width="60%"/></div>
