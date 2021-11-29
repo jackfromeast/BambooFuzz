@@ -57,30 +57,30 @@
 
 ## 3 项目界面展示
 
-系统入口
-
 <div align=center><img src="README.assets/系统入口界面.png" alt="系统入口界面" width="60%"/></div>
 
-固件上传页面
+<p align="center">系统入口</p>
+
 <div align=center><img src="README.assets/固件上传界面.png" alt="固件上传界面" width="60%"/></div>
+<p align="center">固件上传页面</p>
 
-固件容器集群管理界面
 <div align=center><img src="README.assets/固件集群管理界面.png" alt="固件集群管理界面" width="60%"/></div>
+<p align="center">固件容器集群管理界面</p>
 
-固件历史信息展示
 <div align=center><img src="README.assets/固件历史信息展示.png" alt="固件历史信息展示" width="60%"/></div>
 
 <div align=center><img src="README.assets/固件历史信息展示-2.png" alt="固件历史信息展示-2" width="60%"/></div>
+<p align="center">固件历史信息展示</p>
 
-终端控制页面
 <div align=center><img src="README.assets/固件交互页面.png" alt="固件交互页面" width="60%"/></div>
+<p align="center">终端控制页面</p>
 
-网络爬虫监控展示
 <div align=center><img src="README.assets/爬虫监控展示页面.png" alt="爬虫监控展示页面" width="60%"/></div>
 
 <div align=center><img src="README.assets/固件爬虫展示页面2.png" alt="固件爬虫展示页面2" width="60%"/></div>
+<p align="center">网络爬虫监控展示</p>
 
-模糊测试控制界面
 <div align=center><img src="README.assets/模糊测试控制页面.png" alt="模糊测试控制页面" width="60%"/></div>
 
 <div align=center><img src="README.assets/模糊测试控制页面2.png" alt="模糊测试控制页面2" width="60%"/></div>
+<p align="center">模糊测试控制界面</p>
